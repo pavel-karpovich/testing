@@ -1,12 +1,12 @@
 {
-  "name": "ct",
+  "name": "testing",
   "version": "1.0.0",
-  "description": "Сloud Technologies",
+  "description": "Lectures of testing",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Maksim Hladki",
+  "author": "Pavel Karpovich",
   "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.18.6",

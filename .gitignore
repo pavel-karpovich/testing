@@ -14,6 +14,9 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+# cloud9 directory
+.c9
+
 # nyc test coverage
 .nyc_output
 

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<title>Testing</title>
+	<meta name="description" content="testing, definition of testing, introduction of testing">
+	<meta name="keywords" content="testing, тестирование">
+	<meta name="author" content="Edward &amp; Albert">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="../../css/bundle.min.css">
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+                <section>
+                    <h1>Тестирование ПО</h1>
+                    <h3>Теоретическое введение</h3>
+                    <p>
+                        <small>Edward &amp; Albert / <a href="https://github.com/tgjmjgj/testing/">github:Tgjmjgj</a></small>
+                    </p>
+                </section>
+				<section>
+					<h2>Содержание лекции</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h1>Тестирование</h1>
+					<blockquote>
+						Необходимость в тестировании возникает из-за сложности
+						современного ПО. Нельзя выпустить готовый продукт, 
+						без предварительного прохождения тестирования.
+					</blockquote>
+				</section>
+				<section>
+					<h1>Тестирование</h1>
+					<blockquote>
+						Задача тестирования - поиск багов.
+						<p>А они есть всегда. Если их нет, значит вы плохо искали.</p>
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Баг</h2>
+					<blockquote>
+						Суть бага - отклонение фактического результата
+						от ожидаемого.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Баг</h2>
+					<blockquote>
+						Баг может быть обнаружен при выполнении следующих 
+						трех условий:
+					</blockquote>
+					<ul>
+						<li>1. Известен фактический результат</li>
+						<li>2. Известен ожидаемый результат</li>
+						<li>3. Они не одинаковые)</li>
+					</ul>
+				</section>
+				<section>
+					<blockquote>
+						Таким образом, обобщенный алгоритм работы тестировщика:
+					</blockquote>
+					<ul>
+						<li>Узнать ожидаемый результат</li>
+						<li>Узнать фактический результат</li>
+						<li>Сравнить их - и вуаля</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Аналогия</h3>
+					<blockquote>
+						Заказали вы на AliExpress кучу всякого барахла, дождались
+						посылки и радостно забрали её с почты. У вас есть список
+						того, что вы заказывали, и коробка.
+						<p>Итак, тестирование в данном случае будет означать 
+						проверку коробки и сопоставление ее содержимого со списком
+						заказа.</p>
+						<p>Если в коробке чего-то не хватает, вещь поломана, или
+						вообще что-нибудь лишнее - поздравляю, вы нашли баг.</p>
+					</blockquote>
+				</section>
+				<section>
+					<h2>Баг</h2>
+					<img src="img/visockiy.jpg" />
+					<blockquote>
+						Баг или не баг - вот в чём вопрос.	
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Откуда брать ожидаемый результат</h2>
+					<blockquote>
+						Без указания ожидаемого результата нельзя однозначно
+						сказать, является ли какое-нибудь поведение багом.
+					</blockquote>
+					Основные источники ожидаемого результата:
+					<ul>
+						<li><b>Спецификация</b></li>
+						<li>Здравый смысл</li>
+						<li>Жизненный опыт, общение, стандарты и т.д.</li>
+					</ul>
+				</section>
+				<section>
+					<h1>Спецификация</h1>
+					<blockquote>
+						Спецификация для тестировщика занимает ключевое место - 
+						это то, чем он повсеместно руководствуется в первую очередь.
+					</blockquote>
+					<blockquote>
+						<b>Спецификация - это детальное описание того, как 
+						должна работать тестируемая система.</b>
+					</blockquote>
+				</section>
+				<section>
+					<h3>Пример</h3>
+					<blockquote>
+						Пункт из спецификации:
+						<p>При оформлении заказа пользователем обязательно должны
+						быть указаны поля "Телефонный номер" или "Адрес электронной
+						почты". Если пользователь посылает форму заказа без значений
+						в указанных полях, должно появиться сообщение о соответствующей
+						ошибке</p>
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Цели тестирования</h1>
+					<blockquote>
+						Цель тестирования - это нахождение багов до того, как их
+						найдут пользователи.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Релиз</h2>
+					Чем больше из существующих багов будет найдено до релиза, тем
+					лучше. Баги, найденные после релиза - то, чего должен бояться
+					тестировщик больше всего.
+				</section>
+			</section>
+			<section>
+				<h1>Тестирование и QU</h1>
+				<blockquote>
+					QA (Quality Assurance) призвано улучшить ПО через улучшение
+					самого процесса разработки ПО.
+				</blockquote>
+				<blockquote>
+					Тестирование - через обнаружение багов.
+				</blockquote>
+			</section>
+			<section>
+				<h1>Качество ПО</h1>
+				<blockquote>
+					Качество ПО зависит не только от работы тестировщика.
+				</blockquote>
+				<blockquote>
+					Качество (как и его отсутствие) - это результат деятельности
+					всех участников процесса разработки ПО, а также отлаженности
+					и настроек самого процесса.
+				</blockquote>
+			</section>
+			<section>
+				<h1>Ограничения тестирования</h1>
+				<blockquote>
+					Невозможно провести стопроцентное тестирование сложного ПО.
+					Особенно это касается участков, допускающих пользовательский
+					ввод.
+				</blockquote>
+			</section>
+		</div>
+	</div>
+	<aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x"></i>
+		</a>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>

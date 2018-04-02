@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<title>Testing</title>
+	<meta name="description" content="c#, oop, ооп, базовые понятия c#, основы c#">
+	<meta name="keywords" content="c#, oop">
+	<meta name="author" content="Edward &amp; Albert">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="../../css/bundle.min.css">
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+                <section>
+                    <h1>Тестирование ПО</h1>
+                    <h3>Теоретическое введение</h3>
+                    <p>
+                        <small>Edward &amp; Albert / <a href="https://github.com/tgjmjgj/testing/">github:Tgjmjgj</a></small>
+                    </p>
+                </section>
+				<section>
+					<h2>Содержание лекции</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Тест-кейсы</h1>
+					<blockquote>
+						Формальной задачей тестировщика является написание и/или 
+						выполнение тест-кейсов.
+					</blockquote>
+					<blockquote>
+						Тест-кейс (тестируемая ситуация) - пошаговое описание 
+						процесса нахождения фактического результата.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Суть тест-кейса</h2>
+					<blockquote>
+						Тест-кейс описывает процесс нахождения фактического результата
+						и сопоставления его с ожидаемым. Он говорит нам, что делать,
+						чтобы от старта приложения прийти к тестируемому объекту, и
+						как правильно сравить результаты.
+					</blockquote>
+					<blockquote>
+						Иными словами, тест-кейс - это сценарий теста.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Принципы построения тест-кейсов</h2>
+					<blockquote>
+						Требования к тест кейсам:
+						<ul>
+							<li>Независимость</li>
+							<li>Идемпотентность</li>
+							<li>Однозначность</li>
+						</ul>
+					</blockquote>
+					<blockquote>
+						Также любой тест-кейс должен проверять лишь одно
+						логическое действие, один ожидаемый результат.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Структура тест-кейса</h1>
+					<blockquote>
+						Допустим, тестировщику Анатолию был выдан такой тест-кейс:
+					</blockquote>
+					<blockquote>
+						<i>Оплата заказа может быть произведена картой VISA.</i>
+					</blockquote>
+					<blockquote>
+						И перед бедным Анатолием встают фундаментальные вопросы:
+						<ul>
+							<li>Где ему взять карту VISA для проверки.</li>
+							<li>И как, собственно, узнать, прошла оплата или нет.</li>
+						</ul>
+					</blockquote>
+					<blockquote>
+						В общем, этот тест-кейс очень плох.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Корректный тест-кейс</h2>
+					<blockquote>
+						<i>Тест-кейс №XXX.
+						<p>Шаги:</p>
+						<ul>
+							<li>1. Открой www.main.testshop.com</li>
+							<li>2. Введи в поле "Имя пользователя" значение "testuser1"</li>
+							<li>3. Введи в поле "Пароль" значение "pa$$w0rd"</li>
+							<li>4. Нажми кнопку "Войти"</li>
+							<li>5. Введи в поле "Поиск" значение "The Hitchhiker’s Guide to the Galaxy"</li>
+							<li>6. Нажми кнопку "Найти"</li>
+							<li>7. Нажми на кнопку "Добавить в корзину"</li>
+							<li>8. Нажми на кнопку "Корзина"</li>
+							<li>9. Нажми на кнопку "Оплатить"</li>
+							<li>10. Выбери из списка "Вид карты" значение "VISA"</li>
+							<li>11. Введи в поле "Номер карты" значение "4999 9999 9999 9999"</li>
+							<li>12. Введи в поле "Действительна до" значение "12/22"</li>
+							<li>13. Введи в поле "CW2" значение "666"</li>
+							<li>14. Нажми кнопку "Подтвердить оплату"</li>
+							<li>15. Запиши номер заказа ____________</li>
+							<li>16. Направь запрос в базу данных:
+									SELECT result FROM cc_transaction WHERE id = < номер заказа >
+							</li>
+						</ul>
+						Ожидаемый результат: "10"</i>
+					</blockquote>
+				</section>
+				<section>
+					<h2>Исход исполнения тест-кейса</h2>
+					<blockquote>
+						Результат выполнения любого тест-кейса строго детерминирован:
+						<p>тест либо прошел (PASS), либо нет (FAIL)</p>
+					</blockquote>
+					<blockquote>
+						Иногда возникают ситуации, когда тест не может завершиться,
+						что тоже свидетельствует о наличии бага.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Атрибуты тест-кейса</h2>
+					<ul>
+						<li>Уникальный ID</li>
+						<li>Приоритет</li>
+						<li>Идея</li>
+						<li>Подготовительная часть</li>
+						<li>История редактирования</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Уникальный ID</h2>
+					<blockquote>
+						Идентификатор должен быть обязательно, причем уникальный
+						в рамках департамента качества (для ссылок, статистики,
+						редактирования и т.д.).
+					</blockquote>
+				</section>
+				<section>
+					<h2>Приоритет</h2>
+					<blockquote>
+						Приоритет тест-кейса определяет, насколько прохождение
+						конкретного теста критично для ПО. Обычно используется
+						шкала приоритетов от 1 до 4.
+					</blockquote>
+					<blockquote>
+						Допустим, тест-кейс, проверяющий корректность добавления
+						новой записи в базу данных, будет иметь приоритет 1. А 
+						тест-кейс, проверяющий шрифт кнопки "О программе" - 
+						приоритет 4.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Идея</h2>
+					<blockquote>
+						Это описание конкретной вещи, проверяемой тест-кейсом.
+						Просто и на понятном языке.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Подготовительная часть</h2>
+					<blockquote>
+						В подготовительной части выносятся все ресурсы тест-кейса,
+						которые используются во время его выполнения. Это
+						своеобразный блок объявления переменных в едином месте.
+					</blockquote>
+					<blockquote>
+						В подготовительную часть тест-кейса могут включаться:
+					</blockquote>
+					<ul>
+						<li>Информация об аккаунте пользователя</li>
+						<li>Другие данные, необходимые для ввода в процессе прохождения теста</li>
+						<li>Запросе к базе данных</li>
+						<li>Комментарии в помощь тестировщику</li>
+						<li>Вещи, облегчающие исполнение и поддержку тест-кейса</li>
+					</ul>
+				</section>
+				<section>
+					<h2>История редактирования</h2>
+					<blockquote>
+						Сведения о том, кто, когда и почему, вносил изменения в
+						сценарий тест-кейса.
+					</blockquote>
+				</section>
+			</section>
+
+
+
+		</div>
+	</div>
+	<aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x"></i>
+		</a>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>
