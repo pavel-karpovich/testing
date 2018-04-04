@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="ru">
 <head>
-	<meta charset="utf-8">
-	<title>Testing</title>
-	<meta name="description" content="c#, oop, ооп, базовые понятия c#, основы c#">
-	<meta name="keywords" content="c#, oop">
-	<meta name="author" content="Edward &amp; Albert">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<link rel="stylesheet" href="../../css/bundle.min.css">
+	<meta charset="utf-8" />
+	<title>Test-case and test-suite</title>
+	<meta name="description" content="testing, what is test cases and tast suites" />
+	<meta name="keywords" content="testing, testcase, testsuite" />
+	<meta name="author" content="Edward &amp; Albert" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../../css/bundle.min.css" />
 	<!--[if lt IE 9]>
 		<script src="../../js/html5shiv.min.js"></script>
 	<![endif]-->
@@ -70,6 +70,15 @@
 						логическое действие, один ожидаемый результат.
 					</blockquote>
 				</section>
+				<section>
+					<h2>Принципы хороших тест-кейсов</h2>
+					<blockquote>
+						Тест-кейсы не должны содержать ссылок на другие тест-кейсы.
+					</blockquote>
+					<blockquote>
+						Тест-кейсы не должны оставлять после своей работы следов в системе.
+					</blockquote>
+				</section>
 			</section>
 			<section>
 				<section>
@@ -77,9 +86,7 @@
 					<blockquote>
 						Допустим, тестировщику Анатолию был выдан такой тест-кейс:
 					</blockquote>
-					<blockquote>
-						<i>Оплата заказа может быть произведена картой VISA.</i>
-					</blockquote>
+					<img src="img/1.jpg" />
 					<blockquote>
 						И перед бедным Анатолием встают фундаментальные вопросы:
 						<ul>
@@ -93,31 +100,7 @@
 				</section>
 				<section>
 					<h2>Корректный тест-кейс</h2>
-					<blockquote>
-						<i>Тест-кейс №XXX.
-						<p>Шаги:</p>
-						<ul>
-							<li>1. Открой www.main.testshop.com</li>
-							<li>2. Введи в поле "Имя пользователя" значение "testuser1"</li>
-							<li>3. Введи в поле "Пароль" значение "pa$$w0rd"</li>
-							<li>4. Нажми кнопку "Войти"</li>
-							<li>5. Введи в поле "Поиск" значение "The Hitchhiker’s Guide to the Galaxy"</li>
-							<li>6. Нажми кнопку "Найти"</li>
-							<li>7. Нажми на кнопку "Добавить в корзину"</li>
-							<li>8. Нажми на кнопку "Корзина"</li>
-							<li>9. Нажми на кнопку "Оплатить"</li>
-							<li>10. Выбери из списка "Вид карты" значение "VISA"</li>
-							<li>11. Введи в поле "Номер карты" значение "4999 9999 9999 9999"</li>
-							<li>12. Введи в поле "Действительна до" значение "12/22"</li>
-							<li>13. Введи в поле "CW2" значение "666"</li>
-							<li>14. Нажми кнопку "Подтвердить оплату"</li>
-							<li>15. Запиши номер заказа ____________</li>
-							<li>16. Направь запрос в базу данных:
-									SELECT result FROM cc_transaction WHERE id = < номер заказа >
-							</li>
-						</ul>
-						Ожидаемый результат: "10"</i>
-					</blockquote>
+					<img src="img/2.jpg" />
 				</section>
 				<section>
 					<h2>Исход исполнения тест-кейса</h2>
@@ -197,7 +180,90 @@
 					</blockquote>
 				</section>
 			</section>
-
+			<section>
+				<h2>Дополненный тест-кейс</h2>
+				<img src="img/3.jpg" />
+			</section>
+			<section>
+				<section>
+					<h1>Data-driven тест-кейсы</h1>
+					<blockquote>
+						На предыдущем этапе, за счет вынесения всех данных в заголовок 
+						тест-кейса, мы получили <b>Управляемый данными</b> тест-кейс.
+					</blockquote>
+					<blockquote>
+						Преимуществом такого тест-кейса является то, что для модификации
+						тест-кейса на проверку других карт достаточно лишь модификации
+						начальных данных, тогда как шаги остаются неизменными.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Проблема поддерживаемости тест-кейсов</h2>
+					<blockquote>
+						Поддерживаемость - способность тест-кейса подстраиваться
+						под изменения в ПО.
+					</blockquote>
+					Чем выше абстрактность содержания тест-кейса - тем выше его
+					поддерживаемость.
+				</section>
+				<section>
+					<h2>Баланс сил</h2>
+					При разработке любого тест-кейса нужно находить баланс между
+					подробностью описания действий (однозначностью) и краткостью
+					с обобщенностью (абстрагированием).
+					<blockquote>
+						Идеальный тест-кейс - где-то посередине.
+					</blockquote>
+				</section>
+				<section>
+					<h3>Баланс сил</h3>
+					Перечисляющиеся в тест-кейсе шаги должны быть объективно четкими
+					и ясными, без двусмысленных вставок.
+					<p>
+						Но нет необходимости описывать все шаги как для детей. Тест-кейс
+						должен быть понятен любым другим тестировщикам.
+					</p>
+				</section>
+				<section>
+					<h3>Упрощение</h3>
+					Наш предыдущий пример тест-кейса с картой слишком переусложнен
+					и перенасыщен информацией.
+					<p>Попробуем сделать его более кратким:</p>
+				</section>
+				<section>
+					<h3>Упрощенный тест-кейс</h3>
+					<img src="img/4.jpg" />
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Несколько ожидаемых результатов</h1>
+					Тест-кейсом проверятся только одна конкретная вещь, поэтому в идеальном
+					случае у него должен быть всего один ожидаемый результат.
+					<p>
+						Но бывают ситуации, когда система функционирует так, что для проверки
+						какой-либо вещи необходимо выполнение <b>обязательно</b> нескольких
+						условий.
+					</p>
+				</section>
+				<section>
+					<h3>Пример</h3>
+					Допустим, у нас совершается коммерческая сделка, и господин N. передает
+					господину X. 1000 биткоинов. В этом случае ожидаемыми результатами могут
+					одновременно являться:
+					<ul>
+						<li>1. Счёт господина N. уменьшился на 1000 биткоинов.</li>
+						<li>2. Счёт господина X. увеличился на 1000 биткоинов.</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Тест-комплекты</h1>
+				</section>
+			</section>
 
 
 		</div>
