@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<title>NUnit Framework</title>
+	<meta name="description" content="nunit framework on .net platform" />
+	<meta name="keywords" content="nunit, asserts, c#, .net" />
+	<meta name="author" content="Edward &amp; Albert" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../../css/bundle.min.css" />
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+                <section>
+                    <h1>Тестирование ПО</h1>
+                    <h3>Фреймворк модульного тестирования NUnit</h3>
+                    <p>
+                        <small>Edward &amp; Albert / <a href="https://github.com/tgjmjgj/testing/">github:Tgjmjgj</a></small>
+                    </p>
+                </section>
+				<section>
+					<h2>Содержание лекции</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>NUnit</h1>
+					<p>
+						Ну что же, пора добавить в наш курс немного практики.
+					</p>
+					<p>
+						Здесь будет рассматривать фреймворк NUnit версии 3.10.1.
+					</p>
+				</section>
+				<section>
+					<h1>NUnit</h1>
+					<blockquote>
+						NUnit - фреймворк модульного тестирования для всех языков платформы .NET.
+						Изначально был портирован с Java-фреймворка JUnit, но в настоящее время
+						(релиз 3.10.1), был полностью переписан и приобрел множество особенностей и фич.
+					</blockquote>
+					<a href="https://github.com/nunit/nunit">Официальный репозиторий</a>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Проекты NUnit</h2>
+					<p>
+						Помимо самого фреймворка NUnit существуют много расширений, вот
+						некоторые из них:
+					</p>
+					<ul>
+						<li>
+							NUnit Console and Engine - запуск юнит тестов через консоль, а также
+							движок для запуска тестов другими раннерами.
+						</li>
+						<li>
+							NUnit 3 Visual Studio Adapter - адаптер для запуска NUnit тестов из
+							Visual Studio и из билдов VSTS/TFS.
+						</li>
+						<li>
+							NUnit Visual Studio Templates - шаблоны для написания юнит-тестов в Visual Studio.
+						</li>
+						<li>
+							Visual Studio Test Generator - генератор NUnit тестов в Visual Studio.
+						</li>
+						<li>
+							NUnit GUI - запуск NUnit тестов через графическое приложение.
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Инсталляция</h1>
+					<p>
+						Есть несколько способов поставить NUnit:
+					</p>
+					<ul>
+						<li>Полная установка NUnit через NuGet</li>
+						<li>Установка облегченной NUnitLite версии через NuGet</li>
+						<li>Скачивание Zip архива с официального сайта</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Полная установка NUnit через NuGet</h2>
+					<p>
+						Нужно установить 3 пакета: <b>NUnit</b> - сам фреймворк, <b>NUnit.Console</b>
+						- для возможности запуска через консоль и <b>NUnit3TestAdapter</b> - 
+						для запуска через Visual Studio.
+					</p>
+					<p>
+						Можно сделать это через GUI, а можно через Консоль Пакетного Менеджера:
+					</p>
+					<pre>
+						<code class="shell">
+Install-Package NUnit -Version 3.10.1 -Package &lt; имя_тестовой_сборки &gt;
+Install-Package NUnit.Console -Version 3.8.0 -Package &lt; имя_тестовой_сборки &gt;
+Install-Package NUnit3TestAdapter -Version 3.10.0 -Package &lt; имя_тестовой_сборки &gt;
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Установка облегченной NUnitLite версии через NuGet</h2>
+					<p>
+						Облегченная версия NUnit содержит только основное ядро фреймворка и
+						легковесный раннер. Такая конфигурация может потребоваться для тестирования
+						компактных или встроенных систем.
+					</p>
+					<p>
+						Для установки требуется пакет NUnitLite:
+					</p>
+					<pre>
+						<code class="shell">
+Install-Package NUnitLite -Version 3.10.1 -Package &lt; имя_тестовой_сборки &gt;
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Скачивание Zip архива с официального сайта</h2>
+					<p>
+						Скачайте архив с последним релизом NUnit 
+						<a href="https://github.com/nunit/nunit/releases">из релизов GitHub</a>.
+						Разорхивируйте в подходящую директорию и подключите к вашему тестовому
+						проекту ссылку на nunit.framework.dll.
+					</p>
+				</section>
+			</section>
+			<section>
+				<h2>NUnit в белом ящике</h2>
+				<p>
+					Начиная с версии 3.10 вместе с фреймворком поставялется индексированный PDB файл
+					для отладки внутреннего кода. Что позволяет самостоятельно отлаживать внутренний
+					код NUnit. Вдруг пригодится. 
+				</p>
+			</section>
+			<section>
+				<section>
+					<h2>Ну где уже тесты</h2>
+					<p>
+						Пора продемонстрировать юнит тесты в действии.
+					</p>
+				</section>
+				<section>
+					<h3>Тестируемый класс</h3>
+					<pre>
+						<code class="cs">
+public class User
+{
+
+	public int id;
+	public string firstname;
+	public string lastname;
+	public string gender;
+
+	private DateTime birthday;
+	private string email;
+	private string address; 
+
+	public User(int id, string fname, string lname, string g,
+		DateTime birth, string mail, string address)
+	{
+		this.id = id;
+		this.firstname = fname;
+		this.lastname = lname;
+		this.gender = g;
+		this.birthday = birth;
+		this.email = mail;
+		this.address = address;
+	}
+}
+
+public class UserControl
+{
+	private List&lt;User&gt; users;
+	
+	public UserControl(List&lt;User&gt; users)
+	{
+		this.users = users;
+	}
+
+	// ...
+
+	public bool ChangeLastname(int userId, string newLastname)
+	{
+		User user = users.Find(usr => usr.id == userId);
+		if (user != null)
+		{
+			user.lastname = newLastname;
+			return true;
+		}
+		return false;
+	}
+
+	// ...
+
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Тестируем</h3>
+					<p>
+						Мы хотим протестировать метод <i>ChangeLastname</i>.
+					</p>
+					<p>
+						Для этого в тестовую сборку добавим ссылку на проект с кодом
+						этого класса, и создадим тестовый класс.
+					</p>
+				</section>
+				<section>
+					<h2>Тест</h2>
+					<pre>
+						<code class="cs">
+using System;
+using NUnit.Framework;
+
+namespace Bookapp.Tests
+{
+	[TestFixture]
+	public class UserControlTests
+	{
+		[Test]
+		public void ChangeLastName_CorrectNewLastname_LastnameChanged()
+		{
+			var list = new System.Collections.Generic.List&lt;User&gt;();
+			User u1 = new User(1, "Eugen", "Spreches", "Male",
+					new DateTime(1976, 10, 21), "eus113284@gmail.com",
+					"Russia, Belsk, st. Cherdjanova, 14, 331, b.2");
+			User u2 = new User(2, "Kevin", "Zurich", "Male",
+					new DateTime(1982, 3, 15), "dergrosser.ex@epost.de",
+					"Germany, Strig, st. Wainachtsstrase, 8, 23");
+			User u3 = new User(3, "Helen", "Jupiter", "Female",
+					new DateTime(1964, 11, 3), "helen.jupiter1964@gmail.com",
+					"Malaysia, Teluk Intan, st. Keram Adulati, 1, 24");
+			list.Add(u1);
+			list.Add(u2);
+			list.Add(u3);
+			string newLastname = "Kun Wai";
+
+			UserControl userControl = new UserControl(list);
+			bool result = userControl.ChangeLastname(3, newLastname);
+
+			Assert.IsTrue(result);
+			Assert.That(u3.lastname == newLastname);
+		}
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Дополнительные тесты</h2>
+					<p>
+						Вот какую картину мы видим в Visual Studio:
+					</p>
+					<img src="img/first_test.jpg" />
+					<p>
+						Однако, всего одного теста недостаточно, чтобы убедиться в работоспособности
+						этого метода. Попробуем дописать побольше тестов, чтобы охватить максимальное
+						количество различных ситуаций.
+					</p>
+				</section>
+				<section>
+					<h2>Больше тестов</h2>
+					<pre>
+						<code class="cs">
+[Test]
+public void ChangeLastName_InvalidUserId_UserNotFound()
+{
+	var list = new System.Collections.Generic.List&lt;User&gt;();
+	User u1 = new User(1, "Eugen", "Spreches", "Male",
+			new DateTime(1976, 10, 21), "eus113284@gmail.com",
+			"Russia, Belsk, st. Cherdjanova, 14, 331, b.2");
+	User u2 = new User(2, "Kevin", "Zurich", "Male",
+			new DateTime(1982, 3, 15), "dergrosser.ex@epost.de",
+			"Germany, Strig, st. Wainachtsstrase, 8, 23");
+	User u3 = new User(3, "Helen", "Jupiter", "Female",
+			new DateTime(1964, 11, 3), "helen.jupiter1964@gmail.com",
+			"Malaysia, Teluk Intan, st. Keram Adulati, 1, 24");
+	list.Add(u1);
+	list.Add(u2);
+	list.Add(u3);
+	string newLastname = "Kun Wai";
+
+	UserControl userControl = new UserControl(list);
+	bool result = userControl.ChangeLastname(4, newLastname);
+
+	Assert.IsFalse(result);
+	Assert.IsNull(list.Find(usr => usr.lastname == newLastname));
+}
+
+[Test]
+public void ChangeLastName_EmptyUserList_UserNotFound()
+{
+	var list = new System.Collections.Generic.List&lt;User&gt;();
+	string newLastname = "Kun Wai";
+
+	UserControl userControl = new UserControl(list);
+	bool result = userControl.ChangeLastname(1, newLastname);
+
+	Assert.IsFalse(result);
+	Assert.Zero(list.Count);
+}
+
+[Test]
+public void ChangeLastName_NegativeId_UserNotFound()
+{
+	var list = new System.Collections.Generic.List&lt;User&gt;();
+	User u1 = new User(1, "Eugen", "Spreches", "Male",
+			new DateTime(1976, 10, 21), "eus113284@gmail.com",
+			"Russia, Belsk, st. Cherdjanova, 14, 331, b.2");
+	User u2 = new User(2, "Kevin", "Zurich", "Male",
+			new DateTime(1982, 3, 15), "dergrosser.ex@epost.de",
+			"Germany, Strig, st. Wainachtsstrase, 8, 23");
+	User u3 = new User(3, "Helen", "Jupiter", "Female",
+			new DateTime(1964, 11, 3), "helen.jupiter1964@gmail.com",
+			"Malaysia, Teluk Intan, st. Keram Adulati, 1, 24");
+	list.Add(u1);
+	list.Add(u2);
+	list.Add(u3);
+	string newLastname = "Kun Wai";
+	int searchId = -1;
+
+	UserControl userControl = new UserControl(list);
+	bool result = userControl.ChangeLastname(searchId, newLastname);
+
+	Assert.IsFalse(result);
+	Assert.IsNull(list.Find(usr => usr.lastname == newLastname));
+}
+
+[Test]
+public void ChangeLastName_EmptyNewLastname_LastnameRejected()
+{
+	var list = new System.Collections.Generic.List&lt;User&gt;();
+	User u1 = new User(1, "Eugen", "Spreches", "Male",
+			new DateTime(1976, 10, 21), "eus113284@gmail.com",
+			"Russia, Belsk, st. Cherdjanova, 14, 331, b.2");
+	User u2 = new User(2, "Kevin", "Zurich", "Male",
+			new DateTime(1982, 3, 15), "dergrosser.ex@epost.de",
+			"Germany, Strig, st. Wainachtsstrase, 8, 23");
+	User u3 = new User(3, "Helen", "Jupiter", "Female",
+			new DateTime(1964, 11, 3), "helen.jupiter1964@gmail.com",
+			"Malaysia, Teluk Intan, st. Keram Adulati, 1, 24");
+	list.Add(u1);
+	list.Add(u2);
+	list.Add(u3);
+	string newLastname = "";
+
+	UserControl userControl = new UserControl(list);
+	bool result = userControl.ChangeLastname(3, newLastname);
+
+	Assert.IsFalse(result);
+	Assert.IsNull(list.Find(usr => usr.lastname == newLastname));
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Первый баг</h2>
+					<p>
+						Пробуем запустить все тесты, и что же мы видим?
+					</p>
+					<img src="img/first_bug.jpg" />
+					<p>
+						Наш метод не отклоняет изменение фамилии на пустую строку!
+					</p>
+				</section>
+				<section>
+					<h2>Исправляем метод</h2>
+					<pre>
+						<code class="cs">
+public bool ChangeLastname(int userId, string newLastname)
+{
+	if (newLastname == "" || newLastname == null)
+		return false;
+	User user = users.Find(usr => usr.id == userId);
+	if (user != null)
+	{
+		user.lastname = newLastname;
+		return true;
+	}
+	return false;
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Результат</h2>
+					<p>
+						И - Вуаля! Теперь все тесты проходят успешно.
+					</p>
+					<img src="img/all_test_pass.jpg" />
+				</section>
+			</section>
+			<section>
+				<h2>Структура NUnit фреймворка</h2>
+				<p>
+					Теперь самое время засунуть голову поглубже в NUnit, и 
+					детально изучить, какие же возможности он нам предоставляет.
+				</p>
+			</section>
+			<section>
+				<section>
+					<h1>Атрибуты</h1>
+				</section>
+				<section>
+					<h2>Уровни применения атрибутов</h2>
+					<ul>
+						<li>Уровень сборки</li>
+						<li>Уровень класса</li>
+						<li>Уровень метода</li>
+					</ul>
+					<p>
+						Уровень метода имеет наивысший приоритет и перекрывает вышележащие уровни.
+					</p>
+				</section>
+				<section>
+					<h3>Атрибут Apartment</h3>
+					<p>
+						Определяет потоковое поведение тестов как COM объектов, 
+						может принимать 2 значения:	STA и MTA.
+					</p>
+					<p>
+						Всё помеченное STA выполняется последовательно в одном потоке. MTA же 
+						может использоваться сразу несколькими потоками.
+					</p>
+					<p>
+						По умолчанию всегда применяется режим MTA, поэтому указывать его нет необходимости.
+					</p>
+					<pre>
+						<code class="cs">
+[assembly:Apartment(ApartmentState.STA)]
+
+[TestFixture, Apartment(ApartmentState.STA)]
+public class FixtureRequiringSTA
+{
+	[Test, Apartment(ApartmentState.STA)]
+	public void TestRequiringSTA()
+	{
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут Author</h3>
+					<p>
+						Добавляет информацию об авторе теста/тестового класса.
+					</p>
+					<pre>
+						<code class="cs">
+[TestFixture]
+[Author("Jane Doe", "jane.doe@example.com")]
+public class MyTests
+{
+	[Test]
+	public void Test1() { /* ... */ }
+
+	[Test]
+	[Author("Joe Developer")]
+	public void Test2() { /* ... */ }
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут Category</h3>
+					<p>
+						Атрибут позволяет группировать тесты и тестовые классы по различным
+						категориям. Это позволяет выполнять тесты определенных категорий, или
+						же наоборот, исключать из выполнения некоторые группы тестов.
+					</p>
+					<pre>
+						<code class="cs">
+namespace NUnit.Tests
+{
+	using System;
+	using NUnit.Framework;
+
+	[TestFixture]
+	public class SuccessTests
+	{
+		[Test]
+		[Category("Long")]
+		public void VeryLongTest()
+		{ /* ... */ }
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут Description</h3>
+					<p>
+						Позволяет добавить описание.
+						<pre>
+							<code class="cs">
+[assembly: Description("Assembly description here")]
+
+namespace NUnit.Tests
+{
+	using System;
+	using NUnit.Framework;
+
+	[TestFixture, Description("Fixture description here")]
+	public class SomeTests
+	{
+		[Test, Description("Test description here")] 
+		public void OneTest()
+		{ /* ... */ }
+	}
+}
+							</code>
+						</pre>
+					</p>
+				</section>
+				<section>
+					<h3>Атрибут Ignore</h3>
+					<p>
+						Используется для обозначения того, что тест по некоторым
+						причинам не должен исполняться. Например, если тест устарел.
+					</p>
+					<pre>
+						<code class="cs">
+namespace NUnit.Tests
+{
+	using System;
+	using NUnit.Framework;
+
+	[TestFixture]
+	[Ignore("Ignore a fixture")]
+	public class SuccessTests
+	{
+		// ...
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут MaxTime</h3>
+					<p>
+						Атрибут применим только на уровне тестов. Задает максимальное
+						допустимое время выполнения теста в миллисекундах.
+					</p>
+					<pre>
+						<code class="cs">
+[Test, MaxTime(2000)]
+public void TimedTest()
+{
+	//...
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибуты SetUp TearDown</h3>
+					<p>
+						Атрибуты применяются внутри TextFixure для обозначения набора
+						методов, выполняющихся перед выполнением каждого теста в этом же
+						классе (SetUp) и после завершения (TearDown).
+					</p>
+					<pre>
+						<code class="cs">
+namespace NUnit.Tests
+{
+	using System;
+	using NUnit.Framework;
+
+	[TestFixture]
+	public class SuccessTests
+	{
+		[SetUp] public void Init()
+		{ /* ... */ }
+
+		[TearDown] public void Cleanup()
+		{ /* ... */ }
+
+		[Test] public void Add()
+		{ /* ... */ }
+		}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут Test</h3>
+					<p>
+						Атрибут Test является одним из способов маркировки метода внутри
+						TestFixure класса как теста. Тест может быть параметризированным.
+					</p>
+					<p>
+						Метод теста должен быть либо методом экземпляра или статическим методом.
+					</p>
+					<p>
+						Если метод теста возвращает результат, вы должны добавить к атрибуту
+						параметр ExpectedResult для проверки результата. Также есть параметр
+						Description - аналог одноимённого атрибута.
+					</p>
+				</section>
+				<section>
+					<h3>Атрибут Test 2</h3>
+					<pre>
+						<code class="cs">
+namespace NUnit.Tests
+{
+	using System;
+	using NUnit.Framework;
+
+	[TestFixture]
+	public class SuccessTests
+	{
+		// Простейший тест
+		[Test]
+		public void Add()
+		{ /* ... */ }
+
+		// Тест со свойством Description
+		[Test(Description="My really cool test")]
+		public void Add()
+		{ /* ... */ }
+
+		// Простой асинхронный тест
+		[Test]
+		public async Task AddAsync()
+		{ /* ... */ }
+		
+		// Тест с ожидаемым результатом
+		[Test(ExpectedResult = 4)]
+		public int TestAdd()
+		{
+			return 2 + 2;
+		}
+		
+		// Асинхронный тест с ожидаемым результатом
+		[Test(ExpectedResult = 4)]
+		public async Task&lt;int&gt; TestAdd()
+		{
+			await //...
+			return 2 + 2;
+		}
+	}
+}
+						</code>
+					</pre>
+				</section>	
+				<section>
+					<h3>Атрибут TestCase</h3>
+					<p>
+						Атрибут TestCase служит двум целям: помечает метод с параметрами
+						как метод теста, и в то же время предоставляет данные для вызова
+						этого метода.
+					</p>
+					<pre>
+						<code class="cs">
+[TestCase(12, 3, 4)]
+[TestCase(12, 2, 6)]
+[TestCase(12, 4, 3)]
+public void DivideTest(int n, int d, int q)
+{
+	Assert.AreEqual(q, n / d);
+}
+						</code>
+					</pre>
+					<p>
+						Для данного атрибута существует множество параметров, являющихся
+						аналогами других атрибутов, например ExpectedResult.
+					</p>
+					<pre>
+						<code class="cs">
+[TestCase(12, 3, ExpectedResult=4)]
+[TestCase(12, 2, ExpectedResult=6)]
+[TestCase(12, 4, ExpectedResult=3)]
+public int DivideTest(int n, int d)
+{
+	return n / d;
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут TestFixure</h3>
+					<p>
+						Этот атрибут помечает класс, как содержащий тесты класс.
+						Не рекомендуется производить какие-либо действия в конструкторе
+						такого класса.
+					</p>
+					<pre>
+						<code clas="cs">
+namespace NUnit.Tests
+{
+	using System;
+	using NUnit.Framework;
+
+	[TestFixture]
+	public class SuccessTests
+	{
+		// ...
+	}
+}
+						</code>
+					</pre>
+					<p>
+						Также стоит отметить, что атрибут TestFixure наследуется
+						вместе с классом.
+					</p>
+				</section>
+				<section>
+					<h3>Атрибут TestFixure 2</h3>
+					<p>
+						Атрибут TestFixure может быть параметризированным. В этом случае
+						значения параметров передаются как аргументы конструктора класса.
+						Если подходящего конструктора нет, TestFixure игнорируется.
+						Параметризированных TestFixure может быть несколько, по аналогии с
+						атрибутами TesCase.
+					</p>
+					<pre>
+						<code class="cs">
+[TestFixture("hello", "hello", "goodbye")]
+[TestFixture("zip", "zip")]
+[TestFixture(42, 42, 99)]
+public class ParameterizedTestFixture
+{
+	private string eq1;
+	private string eq2;
+	private string neq;
+	
+	public ParameterizedTestFixture(string eq1, string eq2, string neq)
+	{
+		this.eq1 = eq1;
+		this.eq2 = eq2;
+		this.neq = neq;
+	}
+
+	public ParameterizedTestFixture(string eq1, string eq2)
+		: this(eq1, eq2, null) { }
+
+	public ParameterizedTestFixture(int eq1, int eq2, int neq)
+	{
+		this.eq1 = eq1.ToString();
+		this.eq2 = eq2.ToString();
+		this.neq = neq.ToString();
+	}
+
+	[Test]
+	public void TestEquality()
+	{
+		Assert.AreEqual(eq1, eq2);
+		if (eq1 != null &amp;&amp; eq2 != null)
+			Assert.AreEqual(eq1.GetHashCode(), eq2.GetHashCode());
+	}
+
+	[Test]
+	public void TestInequality()
+	{
+		Assert.AreNotEqual(eq1, neq);
+		if (eq1 != null &amp;&amp; neq != null)
+			Assert.AreNotEqual(eq1.GetHashCode(), neq.GetHashCode());
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Атрибут TestFixure 3</h3>
+					<p>
+						А еще TestFixure может применяться для обобщенного класса.
+						В этом случае в качестве параметров атрибута передаются
+						подстановочные типы для класса.
+					</p>
+					<pre>
+						<code class="cs">
+[TestFixture(typeof(ArrayList))]
+[TestFixture(typeof(List<int>))]
+public class IList_Tests<TList> where TList : IList, new()
+{
+	private IList list;
+
+	[SetUp]
+	public void CreateList()
+	{
+		this.list = new TList();
+	}
+
+	[Test]
+	public void CanAddToList()
+	{
+		list.Add(1); list.Add(2); list.Add(3);
+		Assert.AreEqual(3, list.Count);
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>...и многие другие</h3>
+					<p>
+						Весь перечень аттрибутов можно изучить в 
+						<a href="https://github.com/nunit/docs/wiki/Attributes">
+						официальной документации NUnit</a>.
+					</p>
+					<p>
+						А с нас пока хватит атрибутов.
+					</p>
+					<p>
+						Ведь впереди нас ждут...
+					</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Assertion - утверждения</h1>
+					<blockquote>
+						Утверждения занимают ключевое место в любом xUnit-подобном фреймворке,
+						и NUnit не исключение. NUnit предоставляет богатый набор утверждений,
+						собранных в качестве статических методов в классе <b>Assert</b>.
+					</blockquote>
+					<p>
+						Если утверждение не выполняется, тест считается упавшим.
+					</p>
+					<p>
+						Каждый метод Assert-а может быть вызван без сообщения, с простым
+						текстовым сообщением, или параметризированным сообщением.
+					</p>
+				</section>
+				<section>
+					<h2>Модели утверждений</h2>
+					<p>
+						Начиная с NUnit версии 3.0, фреймворк поддерживает две модели утверждений:
+					</p>
+					<ul>
+						<li>Классическую модель</li>
+						<li>Модель ограничений</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Классическая модель</h1>
+					<p>
+						В классической модели всё просто - классы Assert содержат значительный набор
+						вспомогательных методов для построения разнообразных утверждений.
+					</p>
+					<p>
+						Простейший пример:
+					</p>
+					<pre>
+						<code class="cs">
+StringAssert.AreEqualIgnoringCase("Hello", myString);
+						</code>
+					</pre>
+					<p>
+						Существует несколько классов для разных Assert-ов:
+					</p>
+					<ul>
+						<li>Assert - базовая функциональность</li>
+						<li>StringAssert - утверждения для строк</li>
+						<li>CollectionAssert - утверждения для коллекций</li>
+						<li>FileAssert - утверждения для файлов</li>
+						<li>DirectoryAssert - утверждения для директорий</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Список Assert-ов</h2>
+					<table>
+						<tr>
+							<td>Assert.True</td>
+							<td> - равно true</td>
+						</tr>
+						<tr>
+							<td>Assert.False</td>
+							<td> - равно false</td>
+						</tr>
+						<tr>
+							<td>Assert.Null</td>
+							<td> - равно null</td>
+						</tr>
+						<tr>
+							<td>Assert.NotNull</td>
+							<td> - не равно null</td>
+						</tr>
+						<tr>
+							<td>Assert.Zero</td>
+							<td> - равно 0 (для чисел)</td>
+						</tr>
+						<tr>
+							<td>Assert.NotZero</td>
+							<td> - не равно 0</td>
+						</tr>
+						<tr>
+							<td>Assert.IsNaN</td>
+							<td> - равно NaN (для Double)</td>
+						</tr>
+						<tr>
+							<td>Assert.IsEmpty</td>
+							<td> - пустое (строки и коллекции)</td>
+						</tr>
+						<tr>
+							<td>Assert.IsNotEmpty</td>
+							<td> - не пустое</td>
+						</tr>
+						<tr>
+							<td>Assert.AreEqual</td>
+							<td> - два значения равны (метод Equals)</td>
+						</tr>
+						<tr>
+							<td>Assert.AreNotEqual</td>
+							<td> - два значения не равны</td>
+						</tr>
+						<tr>
+							<td>Assert.AreSame</td>
+							<td> - ссылаются на один объект</td>
+						</tr>
+						<tr>
+							<td>Assert.AreNotSame</td>
+							<td> - ссылаются на разные объекты</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Список Assert-ов 2</h2>
+					<table>
+						<tr>
+							<td>Assert.Contains</td>
+							<td> - содержится в коллекции</td>
+						</tr>
+						<tr>
+							<td>Assert.Greater</td>
+							<td> - больше заданной величины</td>
+						</tr>
+						<tr>
+							<td>Assert.GreaterOrEqual</td>
+							<td> - больше или равно</td>
+						</tr>
+						<tr>
+							<td>Assert.Less</td>
+							<td> - меньше</td>
+						</tr>
+						<tr>
+							<td>Assert.LessOrEqual</td>
+							<td> - меньше или равно</td>
+						</tr>
+						<tr>
+							<td>Assert.Positive</td>
+							<td> - положительное (число)</td>
+						</tr>
+						<tr>
+							<td>Assert.Negative</td>
+							<td> - отрицательное</td>
+						</tr>
+						<tr>
+							<td>Assert.IsInstanceOf</td>
+							<td> - является экземпляром указанного типа</td>
+						</tr>
+						<tr>
+							<td>Assert.IsNotInstanceOf</td>
+							<td> - не является экземпляром</td>
+						</tr>
+						<tr>
+							<td>Assert.IsAssignableFrom</td>
+							<td> - объекту можно присвоить указанный тип</td>
+						</tr>
+						<tr>
+							<td>Assert.IsNotAssignableFrom</td>
+							<td> - объекту нельзя присвоить указанный тип</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Список Assert-ов 3</h2>
+					<table>
+						<tr>
+							<td>Assert.Throws</td>
+							<td> - метод должен вернуть строго определенное исключение</td>
+						</tr>
+						<tr>
+							<td>Assert.ThrowsAsync</td>
+							<td> - то же самое для асинхронного метода</td>
+						</tr>
+						<tr>
+							<td>Assert.DoesNotThrow</td>
+							<td> - метод не должен генерировать исключения</td>
+						</tr>
+						<tr>
+							<td>Assert.DoesNotThrowAsync</td>
+							<td> - то же самое для асинхронного метода</td>
+						</tr>
+						<tr>
+							<td>Assert.Catch</td>
+							<td> - аналогично Throws, но допускает производные исключения</td>
+						</tr>
+						<tr>
+							<td>Assert.CatchAsync</td>
+							<td> - догадайтесь</td>
+						</tr>
+						<tr>
+							<td>Assert.Pass</td>
+							<td> - принудительное успешное прохождение теста</td>
+						</tr>
+						<tr>
+							<td>Assert.Fail</td>
+							<td> - принудительный провал теста</td>
+						</tr>
+						<tr>
+							<td>Assert.Ignore</td>
+							<td> - остановка и игнорирование этого теста</td>
+						</tr>
+						<tr>
+							<td>Assert.Inconclusive</td>
+							<td> - когда входные данные не удовлетворяют потребностям теста</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Список StringAssert-ов</h2>
+					<table>
+						<tr>
+							<td>StringAssert.Contains</td>
+							<td> - подстрока содержится в строке</td>
+						</tr>
+						<tr>
+							<td>StringAssert.DoesNotContain</td>
+							<td> - не содержится</td>
+						</tr>
+						<tr>
+							<td>StartsWith</td>
+							<td> - строка начинается с подстроки</td>
+						</tr>
+						<tr>
+							<td>DoesNotStartsWith</td>
+							<td> - не начинается</td>
+						</tr>
+						<tr>
+							<td>StringAssert.EndsWith</td>
+							<td> - заканчивается на</td>
+						</tr>
+						<tr>
+							<td>StringAssert.DoesNotEndWith</td>
+							<td> - не заканчивается</td>
+						</tr>
+						<tr>
+							<td>StringAssert.AreEqualIgnoringCase</td>
+							<td> - строки равны без учета регистра</td>
+						</tr>
+						<tr>
+							<td>StringAssert.AreNotEqualIgnoringCase</td>
+							<td> - не равны</td>
+						</tr>
+						<tr>
+							<td>StringAssert.IsMatch</td>
+							<td> - соответствует регулярному выражению</td>
+						</tr>
+						<tr>
+							<td>StringAssert.DoesNotMatch</td>
+							<td> - не соответствует</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Список CollectionAssert-ов</h2>
+					<table>
+						<tr>
+							<td>.AllItemsAreInstancesOfType</td>
+							<td> - все элементы экземпляры определенного типа</td>
+						</tr>
+						<tr>
+							<td>.AllItemAreNotNull</td>
+							<td> - ни один из элементов не равен null</td>
+						</tr>
+						<tr>
+							<td>.AllItemAreUnique</td>
+							<td> - все элементы разные</td>
+						</tr>
+						<tr>
+							<td>.AreEqual</td>
+							<td> - две коллекции содержат одинаковые элементы</td>
+						</tr>
+						<tr>
+							<td>.AreEquivalent</td>
+							<td> - две коллекции содержат одинаковые элементы в одинаковом порядке</td>
+						</tr>
+						<tr>
+							<td>.Contains</td>
+							<td> - коллекция содержит определенный элемент</td>
+						</tr>
+						<tr>
+							<td>.AreNotContain</td>
+							<td> - не содержит</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Список CollectionAssert-ов</h2>
+					<table>
+						<tr>
+							<td>CollectionAssert.IsSubsetOf</td>
+							<td> - коллекция является подмножеством другой коллекции</td>
+						</tr>
+						<tr>
+							<td>CollectionAssert.IsNotSubsetOf</td>
+							<td> - коллекция не является подмножеством другой коллекции</td>
+						</tr>
+						<tr>
+							<td>CollectionAssert.IsEmpty</td>
+							<td> - коллекция пуста</td>
+						</tr>
+						<tr>
+							<td>CollectionAssert.IsNotEmpty</td>
+							<td> - коллекция не пустая</td>
+						</tr>
+						<tr>
+							<td>CollectionAssert.IsOrdered</td>
+							<td> - коллекция остортирована</td>
+						</tr>
+					</table>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Модель ограничений</h1>
+					<p>
+						Модель ограничений в основном использует всего один метод -
+						<b>Assert.That</b>, которому передаются разнообразнейшие
+						аргументы, называющиеся Ограничениями. Модель привносит
+						необычайную гибкость в механизм утверждений.
+					</p>
+					<p>
+						Сразу посмотрим на пример:
+					</p>
+					<pre>
+						<code class="cs">
+int[] array = new int[] { 1, 2, 3 };
+Assert.That(array, Has.Exactly(1).EqualTo(3));
+Assert.That(array, Has.Exactly(2).GreaterThan(1));
+Assert.That(array, Has.Exactly(3).LessThan(100));
+						</code>
+					</pre>
+					<p>
+						Такие утверждения задать с помощью Классической модели
+						просто невозможно.
+					</p>
+					<p>
+						Эквивалентные записи разными моделями:
+					</p>
+					<pre>
+						<code class="cs">
+Assert.AreEqual(4, 2 + 2);
+Assert.That(2 + 2, Is.EqualTo(4));
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Принципы модели ограничений</h2>
+					<p>
+						Модель ограничений приносит единую форму записи для всех утверждений.
+						Первым аргументом передается объект, над которым прописывается утверждение,
+						а вторым паарметром - накладываемые на него ограничения.
+					</p>
+					<pre>
+						<code class="cs">
+Assert.That(myString, Is.EqualTo("Hello"));
+// аналогично
+Assert.That(myString, new EqualConstraint("Hello"));
+						</code>
+					</pre>
+					<p>
+						В новой модели также существует возможность создания пользовательских
+						ограничений.
+					</p>
+				</section>
+				<section>
+					<h2>Классы хелперы</h2>
+					<p>
+						Для упрощения синтаксиса ограничению существует набор классов хелперов:
+					</p>
+					<ul>
+						<li>It - наиболее абстрактные ограничения на сответствие объекта чему-либо</li>
+						<li>Does - ограничения на соответствие объекта каким-либо ожиданиям</li>
+						<li>Contains - ограничения на содержание в объекте чего-либо</li>
+						<li>Has - ограничения на наличие у объекта каких-либо параметров</li>
+						<li>List - ограничения, специфичные для коллекций</li>
+						<li>Throws - ограничения, связанные с исключениями</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Гиб-б-бкость</h2>
+					<p>
+						Модель ограничений предоставляет настолько мощный и гибкий механизм создания
+						утверждений, что рассмотреть их полностью вряд ли возможно - варианты комбинаций
+						ограничений просто бесконечны.
+					</p>
+					<pre>
+						<code class="cs">
+Assert.That(array,
+	Has.Length.InRange(1, 10)
+	.And.Ordered.Ascending.After(1000).MilliSeconds
+	.And.All.InstanceOf(typeof(int))
+	.And.Some.Not.Zero
+	.And.Exactly(1).GreaterThan(2)
+			.Or.Negative
+);
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<h2>Предупреждения</h2>
+				<p>
+					В NUnit существует еще такая штука как предупреждения. С помощью
+					этого механизма можно создавать предупредительные сообщения в определенных 
+					ситуациях в коде теста, при этом продолжая его выполнение.
+				</p>
+				<p>
+					Для создания предупреждений используется класс Warn и метод Assert.Warn.
+				</p>
+				<pre>
+					<code class="cs">
+// Использование Warn с условием отрицания
+Warn.If(2 + 2 != 5);
+Warn.If(2 + 2, Is.Not.EqualTo(5));
+Warn.If(() => 2 + 2, Is.Not.EqualTo(5).After(3000));
+
+// Использование Warn с прямым условием
+Warn.Unless(2 + 2 == 5);
+Warn.Unless(2 + 2, Is.EqualTo(5));
+Warn.Unless(() => 2 + 2, Is.EqualTo(5).After(3000));
+
+// Выдать предупреждение
+Assert.Warn("Warning message");
+					</code>
+				</pre>
+				<img src="img/warn.jpg" />
+			</section>
+			<section>
+				<section>
+					<h2>Примеры тестов</h2>
+					<p>
+						Примеры тестов
+						<a href="https://github.com/nunit/nunit-csharp-samples/tree/master/money">
+							можно найти вот здесь
+						</a>.
+					</p>
+				</section>
+			</section>
+		</div>
+	</div>
+	<aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x"></i>
+		</a>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>
