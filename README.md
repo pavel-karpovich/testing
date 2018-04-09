@@ -16,6 +16,28 @@
 
 [Лекция](https://tgjmjgj.github.io/testing/dist/lecture/2_testcases/index.html "Лекция")
 
+## Тема 3. Привет, юнит тестирование
+
+Юнит тесы. Разница между модульным и интеграционным тестированием. Рекомендации по
+написанию юнит тестов. Популярные фреймворки, и другие полезности.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/3_unittest/index.html "Лекция")
+
+## Тема 4. Фреймворк NUnit
+
+Юнит тестирование на практике. Работа с NUnit в Visual Studio. Атрибуты NUnit.
+Модель утверждения и класс Assert. Классическая модель и модель ограничений.
+Примеры юнит-тестов.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/4_nunit/index.html "Лекция")
+
+## Тема 5. Фреймворк Moq
+
+Изоляционные фреймворки. Борьба с зависимости с помощью Moq. Разграничения стабов и моков.
+Класс Mock. Метод Verify. Основные способы создания фальшивых зависимостей.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/5_moq/index.html "Лекция")
+
 ## Задания
 
 * 1 [_Спецификация_ _ПО_](https://tgjmjgj.github.io/testing/dist/task/1_spec/1.pdf "Задание 1")
