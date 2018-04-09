@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<title>Isolation framework Moq</title>
+	<meta name="description" content="isolation framework for .NET Moq" />
+	<meta name="keywords" content="unit test, c#, moq, nunit, .net" />
+	<meta name="author" content="Edward &amp; Albert" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../../css/bundle.min.css" />
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+                <section>
+                    <h1>Тестирование ПО</h1>
+                    <h3>Фреймворк Moq</h3>
+                    <p>
+                        <small>Edward &amp; Albert / <a href="https://github.com/tgjmjgj/testing/">github:Tgjmjgj</a></small>
+                    </p>
+                </section>
+				<section>
+					<h2>Содержание лекции</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Изоляционные фреймворки</h2>
+					<blockquote>
+						Изоляционным фреймворком называется набор библиотек, позволяющих создавать
+						фальшивые зависимости (стабы и моки)б позволяющие изолировать некоторую
+						часть кода от всех внешних воздействий.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Типы изоляционных фреймворков</h2>
+					<p>
+						Платформа .NET поддерживает 2 вада изоляционных фреймворков:
+					</p>
+					<ul>
+						<li>Использующие CLR API</li>
+						<li>Использующие кодогенерацию</li>
+					</ul>
+					<p>
+						Изоляционные фреймворки первого типа позволяют заменять всё, что угодно.
+					</p>
+					<p>
+						Тогда как на изоляционные фреймворки, использующие кодогенерацию, накладываются
+						следующие ограничения: нельзя подменять невиртуальные и статические методы.
+					</p>
+					<p>
+						Moq относится ко второму типу фреймворков.
+					</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Moq</h1>
+					<blockquote>
+						Moq - простой и легковесный изоляционный фреймворк, который построен на основе
+						лямбда-функций и деревьев выражений LINQ, нацеленный на обеспечение
+						продуктивности, строгой типизизации и удобства рефакторинга. Позволяет
+						мокать интерфейсы и классы.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Основные фичи</h2>
+					<ul>
+						<li>Строго-типизированный</li>
+						<li>Полная поддержка VS IntelliSense для фальшивых объектов</li>
+						<li>Легкость в изучении</li>
+						<li>Точечный контроль поведения моков</li>
+						<li>Обработка событий в моках</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<h2>Инсталляция</h2>
+				<p>
+					Здесь всё просто - нужен пакет Moq.
+				</p>
+				<pre>
+					<code class="cs">
+Install-Package Moq -Version 4.8.2 -Package &lt; имя_тестовой_сбоки &gt;
+					</code>
+				</pre>
+			</section>
+			<section>
+				<section>
+					<h3>Стабы</h3>
+					<p>
+						В Moq грань между стабами и моками совсем размыта. Любые 
+						фиктивные объекты создаются при помощи класса Mock, и 
+						понять, где фактический мок, а где стаб, можно только
+						по смыслу выполняемой работы.
+					</p>
+					<p>
+						Вначале мы будем рассматривать реализации стабов - как наиболее простых
+						зависимостей.
+					</p>
+				</section>
+				<section>
+					<h2>Стабы</h2>
+					<p>
+						В качестве примера проверки состояния будем рассматривать 
+						набор юнит тестов для следующего интерфейса:
+					</p>
+					<pre>
+						<code class="cs">
+public interface ILoggerDependency 
+{ 
+	string GetCurrentDirectory(); 
+	string GetDirectoryByLoggerName(string loggerName); 
+	string DefaultLogger { get; } 
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Mock.Of</h3>
+					<p>
+						Основной метод для создания фальшивых зависимостей.
+					</p>
+					<pre>
+						<code class="cs">
+Mock.Of&lt;подменяемая_сущность&gt;(внедренное_поведение)
+						</code>
+					</pre>
+					<p>
+						Метод непосредственно возвращает готовый объект-заглушку,
+						в котором все методы возвращают значения по-умолчанию
+						для своих типов.
+					</p>
+				</section>
+				<section>
+					<h3>Первый стаб</h3>
+					<pre>
+						<code class="cs">
+ILoggerDependency loggerDependency =
+	Mock.Of&lt;ILoggerDependency&gt;(d => d.GetCurrentDirectory() == "D:\\Temp");
+var currentDirectory = loggerDependency.GetCurrentDirectory();
+	
+Assert.That(currentDirectory, Is.EqualTo("D:\\Temp"));
+						</code>
+					</pre>
+					<p>
+						При вызове метода GetCurrentDirectory() мы получим строку "D:\\Temp".
+					</p>
+				</section>
+				<section>
+					<h3>Еще стаб</h3>
+					<pre>
+						<code class="cs">
+ILoggerDependency loggerDependency = Mock.Of&lt;ILoggerDependency&gt;(
+		ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;()) == "C:\\Foo");
+		
+string directory = loggerDependency.GetDirectoryByLoggerName("anything");
+		
+Assert.That(directory, Is.EqualTo("C:\\Foo"));
+						</code>
+					</pre>
+					<p>
+						Для того, чтобы создать метод с параметрами, используется дополнительный
+						класс-хелпер It. В данном примере запись <i>It.IsAny&lt;string&gt;</i>
+						означает, что метод принимает строку с любым значением.
+					</p>
+					<p>
+						Независимо от передаваемых аргументов этот мок будет возвращать нам то,
+						что мы в него записали.
+					</p>
+				</section>
+				<section>
+					<h3>Усложним</h3>
+					<pre>
+						<code class="cs">
+Mock&lt;ILoggerDependency&gt; stub = new Mock&lt;ILoggerDependency&gt;();
+
+stub.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;()))
+	.Returns&lt;string&gt;(name => "C:\\" + name);
+	
+string loggerName = "SomeLogger";
+ILoggerDependency logger = stub.Object;
+string directory = logger.GetDirectoryByLoggerName(loggerName);
+	
+Assert.That(directory, Is.EqualTo("C:\\" + loggerName));
+						</code>
+					</pre>
+					<p>
+						Во-первых, здесь мы видим новый синтаксис создания мока -
+						сначала создается мок-объект класса Mock, затем выполняется
+						его настройка, а доступ к самому классу-зависимости
+						выполняется через свойство Object. 
+					</p>
+					<p>
+						Во-вторых, заглушка инициализируется здесь таким образом, что
+						возвращаемое значение метода GetDirectoryByLoggerName зависит
+						от аргумента метода.
+					</p>
+				</section>
+				<section>
+					<h3>Множественная инициализация</h3>
+					<p>
+						При помощи оператора логического "И" можно задавать поведение
+						сразу нескольких методов в одном выражении.
+					</p>
+					<pre>
+						<code class="cs">
+ILoggerDependency logger =
+Mock.Of&lt;ILoggerDependency&gt;(
+	d => d.GetCurrentDirectory() == "D:\\Temp" &amp;&amp;
+			d.DefaultLogger == "DefaultLogger" &amp;&amp;
+			d.GetDirectoryByLoggerName(It.IsAny<string>()) == "C:\\Temp");
+
+Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
+Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
+Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Temp"));
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Несколько Setup-ов</h3>
+					<p>
+						То же самое можно сделать при помощи более громоздкого старого
+						синтаксиса из нескольких сетапов:
+					</p>
+					<pre>
+						<code class="cs">
+var stub = new Mock&lt;ILoggerDependency&gt;();
+stub.Setup(ld => ld.GetCurrentDirectory()).Returns("D:\\Temp");
+stub.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;())).Returns("C:\\Temp");
+stub.SetupGet(ld => ld.DefaultLogger).Returns("DefaultLogger");
+	
+ILoggerDependency logger = stub.Object;
+	
+Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
+Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
+Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Temp"));
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Моки</h2>
+					<p>
+						Для проверки поведения будем использовать следующий класс и интерфейс:
+					</p>
+					<pre>
+						<code class="cs">
+public interface ILogWriter
+{
+	string GetLogger();
+	void SetLogger(string logger);
+	void Write(string message);
+}
+public class Logger
+{
+	private readonly ILogWriter _logWriter;
+	
+	public Logger(ILogWriter logWriter)
+	{
+		_logWriter = logWriter;
+	}
+	
+	public void WriteLine(string message)
+	{
+		_logWriter.Write(message);
+	}
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Первый мок</h3>
+					<pre>
+						<code class="cs">
+var mock = new Mock&lt;ILogWriter&gt;();
+var logger = new Logger(mock.Object);
+	
+logger.WriteLine("Hello, logger!");
+	
+// Проверяем, что вызвался метод Write нашего мока с любым аргументом
+mock.Verify(lw => lw.Write(It.IsAny&lt;string&gt;()));
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Вариации</h3>
+					<p>
+						Если нужно проверить, был ли вызов метода с определенным
+						аргументом:
+					</p>
+					<pre>
+						<code class="cs">
+mock.Verify(lw => lw.Write("Hello, logger!"));
+						</code>
+					</pre>
+					<p>
+						Если нужно проверить, что метод был вызван ровно 1 раз:
+					</p>
+					<pre>
+						<code class="cs">
+mock.Verify(lw => lw.Write(It.IsAny&lt;string&gt;()), Times.Once());
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Хелпер Times</h2>
+					<p>
+						Существует множество вариантом проверки того, сколько раз была
+						вызвана зависимость. Для этого используются статические методы
+						класса-хелпера Times:
+					</p>
+					<ul>
+						<li>Once()</li>
+						<li>AtLeast(int)</li>
+						<li>AtMost(int)</li>
+						<li>Exactly</li>
+						<li>Between</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Virify()</h3>
+					<p>
+						Если методу Verify не передавать никаких дополнительных
+						параметров, будут использовать ожидания установленные с
+						помощью методы mock.Setup.
+					</p>
+					<pre>
+						<code class="cs">
+var mock = new Mock&lt;ILogWriter&gt;();
+mock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
+	
+var logger = new Logger(mock.Object);
+logger.WriteLine("Hello, logger!");
+	
+mock.Verify();
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Несколько ожиданий</h3>
+					<p>
+						В некоторых случаях неудобно использовать несколько Verify для
+						проверки нескольких вызовов. Вместо этого можно использовать
+						мок-объект и задать ожидаемое поведение с помощью методов
+						Setup.
+					</p>
+					<pre>
+						<code class="cs">
+var mock = new Mock&lt;ILogWriter&gt;();
+mock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
+mock.Setup(lw => lw.SetLogger(It.IsAny&lt;string&gt;()));
+	
+var logger = new Logger(mock.Object);
+logger.WriteLine("Hello, logger!");
+	
+mock.Verify();
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Модели проверки поведения</h2>
+					<p>
+						В Moq существует две модели проверки поведения:
+					</p>
+					<ul>
+						<li>Свободная (loose)</li>
+						<li>Строгая (strict)</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Свободная модель</h2>
+					<blockquote>
+						Свободная модель проверок заключается в том, что тестируемый
+						класс может вызывать какие угодно методы вашей зависимости,
+						и для этого нет необходимости явно определять их поведение.
+					</blockquote>
+					<p>
+						Такая модель в Moq используется по-умолчанию, при создании
+						Mock объекта без аргументов.
+					</p>
+				</section>
+				<section>
+					<h2>Строгая модель</h2>
+					<blockquote>
+						Строгая модель запрещает вызов методов зависимостей, которые
+						не были вами явно обозначены.
+					</blockquote>
+					<p>
+						Для активации строгой модели проверок требуется передать в 
+						конструктор класса Mock значение <i>MockBehavior.Strict</i>
+					</p>
+				</section>
+				<section>
+					<h3>Пример</h3>
+					<p>
+						В предыдущем примере метод logger.WriteLine вызывает два метода
+						интерфейса ILogWriter: метод Write и SetLogger. При использовании
+						MockBehavior.Strict метод Verify завершится неудачно, если мы не
+						укажем явно, что будем использовать эти два метода.
+					</p>
+					<pre>
+						<code class="cs">
+var mock = new Mock&lt;ILogWriter&gt;(MockBehavior.Strict);
+
+mock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
+//mock.Setup(lw => lw.SetLogger(It.IsAny&lt;string&gt;())); 
+
+var logger = new Logger(mock.Object);
+logger.WriteLine("Hello, logger!");
+ 
+mock.Verify();
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Класс MockRepository</h2>
+					<blockquote>
+						Класс MockRepository предоставляет альтернативный синтаксис
+						для создания стабов и позволяет хранить несколько мок-объектов
+						и проверять более комплексное поведение путём вызова одного метода.
+					</blockquote>
+				</section>
+				<section>
+					<h3>Использование MockRepository</h3>
+					<pre>
+						<code class="cs">
+var repository = new MockRepository(MockBehavior.Default);
+ILoggerDependency logger = repository.Of&lt;ILoggerDependency&gt;()
+    .Where(ld => ld.DefaultLogger == "DefaultLogger")
+    .Where(ld => ld.GetCurrentDirectory() == "D:\\Temp")
+    .Where(ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;()) == "C:\\Temp")
+    .First();
+ 
+Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
+Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
+Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Temp"));
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Несколько Mock оъектов</h3>
+					<p>
+						Предположим, что у нас есть более сложный класс SmartLogger,
+						которому требуется две зависимости: ILogWriter и ILogMailer.
+						Тестируемый класс при вызове метода Write должен вызвать
+						методы двух зависимостей:
+					</p>
+					<pre>
+						<code class="cs">
+var repo = new MockRepository(MockBehavior.Default);
+var logWriterMock = repo.Create&lt;ILogWriter&gt;();
+logWriterMock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
+	
+var logMailerMock = repo.Create&lt;ILogMailer&gt;();
+logMailerMock.Setup(lm => lm.Send(It.IsAny&lt;MailMessage&gt;()));
+	
+var smartLogger = new SmartLogger(logWriterMock.Object, logMailerMock.Object);
+	
+smartLogger.WriteLine("Hello, Logger");
+	
+repo.Verify();
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<h3>Извлечение Mock объекта</h3>
+				<p>
+					В некоторых случаях бывает полезно получить сам мок-объект
+					по готовой заглушке зависимости. Для этого используется
+					методо Mock.Get:
+				</p>
+				<pre>
+					<code class="cs">
+ILoggerDependency logger = Mock.Of&lt;ILoggerDependency&gt;(
+		ld => ld.GetCurrentDirectory() == "D:\\Temp"
+			&amp;&amp; ld.DefaultLogger == "DefaultLogger");
+		
+	// Задаем более сложное поведение метода GetDirectoryByLoggerName
+	// для возвращения разных результатов, в зависимости от аргумента
+	Mock.Get(logger)
+		.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;()))
+		.Returns&lt;string&gt;(loggerName => "C:\\" + loggerName);
+		
+	Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
+	Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
+	Assert.That(logger.GetDirectoryByLoggerName("Foo"), Is.EqualTo("C:\\Foo"));
+	Assert.That(logger.GetDirectoryByLoggerName("Boo"), Is.EqualTo("C:\\Boo"));
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h3>Подробности</h3>
+				<p>
+					Больше информации и примеров работы с Moq можно найти
+					<a href="https://github.com/Moq/moq4/wiki/Quickstart">
+					в официальном Quickstart-е</a>
+				</p>
+			</section>
+		</div>
+	</div>
+	<aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x"></i>
+		</a>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>
