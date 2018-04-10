@@ -52,6 +52,6 @@
 
 * 3 [_Ручное_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/3_tests/3.pdf "Задание 3")
 
-* 3 [_Автоматизированное_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/4_nunitforms/4.pdf "Задание 4")
+* 4 [_Автоматизированное_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/4_nunitforms/4.pdf "Задание 4")
 
-* 3 [_Юнит_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/5_unit/5.pdf "Задание 5")
+* 5 [_Юнит_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/5_unit/5.pdf "Задание 5")
