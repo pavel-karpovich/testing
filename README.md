@@ -38,6 +38,12 @@
 
 [Лекция](https://tgjmjgj.github.io/testing/dist/lecture/5_moq/index.html "Лекция")
 
+## Тема 6. Расширение NUnitForms
+
+Расширение NUnit NUnitForms. Автоматизированное тестирование GUI. Больше и написать то нечего.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/5_moq/index.html "Лекция")
+
 ## Задания
 
 * 1 [_Спецификация_ _ПО_](https://tgjmjgj.github.io/testing/dist/task/1_spec/1.pdf "Задание 1")
@@ -45,3 +51,7 @@
 * 2 [_Тест-кейсы_](https://tgjmjgj.github.io/testing/dist/task/2_testcases/2.pdf "Задание 2")
 
 * 3 [_Ручное_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/3_tests/3.pdf "Задание 3")
+
+* 3 [_Автоматизированное_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/4_nunitforms/4.pdf "Задание 4")
+
+* 3 [_Юнит_ _тестирование_](https://tgjmjgj.github.io/testing/dist/task/5_unit/5.pdf "Задание 5")

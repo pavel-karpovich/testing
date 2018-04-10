@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<title>Windows Forms Unit Testing</title>
+	<meta name="description" content="unit testing for windows forms gui applications" />
+	<meta name="keywords" content="unit test, c#, nunit, nunittest, windowsforms, .net" />
+	<meta name="author" content="Edward &amp; Albert" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../../css/bundle.min.css" />
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+                <section>
+                    <h1>Тестирование ПО</h1>
+                    <h3>Библиотека NunitForms</h3>
+                    <p>
+                        <small>Edward &amp; Albert / <a href="https://github.com/tgjmjgj/testing/">github:Tgjmjgj</a></small>
+                    </p>
+                </section>
+				<section>
+					<h2>Содержание лекции</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Тестирование Windows Forms</h2>
+					<p>
+						Если вы застряли в 2000-ых, и вам необходимо протестировать графический
+						интерфейс Windows Forms приложения - библиотека NunitForms для вас.
+					</p>
+				</section>
+				<section>
+					<h2>NunitForms</h2>
+					<p>
+						NunitForms - расширение для NUnit, позволяющее с легкостью выполнять
+						автоматическое тестирование GUI Windows Forms.
+					</p>
+					<p>
+						Бибилиотека позволяет юнит тестам открывать формы и взаимодействовать 
+						с элементами управления интерактивно. 
+					</p>
+					<p>
+						NunitForms самостоятельно очищает формы между запусками тестов, управляет
+						модальными диалоговыми окнами и проверяет ваши ожидания в тесте.
+					</p>
+				</section>
+				<section>
+					<h3>Поддерживаемые контролы</h3>
+					<p>
+						NunitForms полностью поддерживает следующие элементы управления:
+					</p>
+					<ul>
+						<li>Button</li>
+						<li>CheckBox</li>
+						<li>ComboBox</li>
+						<li>Label</li>
+						<li>ListBox</li>
+						<li>RadioButton</li>
+						<li>TabControl</li>
+						<li>TextBox</li>
+						<li>TreeView</li>
+						<li>ContextMenu</li>
+						<li>Form</li>
+						<li>MenuItem</li>
+						<li>ModalForm</li>
+						<li>MessageBox</li>
+						<li>а также Mouse</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Класс ControlTester</h3>
+					<p>
+						Если нужно протестировать элемент управления, не входящий в этот список,
+						можно воспользоваться классом ControlTester. Он содержит полезные методы
+						и свойства, работающие через рефлексию, для поддержки любых контролов.
+					</p>
+				</section>
+				<section>
+					<h2>Запись действий</h2>
+					<p>
+						NunitForms также поддерживает запись взаимодействия с приложением, на
+						основании которого генерируется тестовый код. Только этот инструмент
+						не так просто найти)
+					</p>
+				</section>
+			</section>
+			<section>
+				<h2>Инсталляция</h2>
+				<p>
+					Пакет NuGet:
+				</p>
+				<pre>
+					<code class="cs">
+Install-Package NUnitForms.Framework -Version 1.3.1 -Project &lt; имя_тестовой_сборки &gt;
+					</code>
+				</pre>
+				<p>
+					Более новую версию (..2006 года, а не 2004), можно загрузить с
+					<a href="https://sourceforge.net/projects/nunitforms/files/nunitforms/">
+						официальной страницы на Sourceforge
+					</a>.
+				</p>
+				<p>
+					Из-за древности библиотеки у неё есть сложности в совместимости с 
+					современными версиями NUnit. Поэтому для корректной работы всего
+					функционала необходим NUnit версии 2+.
+				</p>
+				<pre>
+					<code class="cs">
+Install-Package NUnit -Version 2.6.3 -Project &lt; имя_тестовой_сборки &gt;
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Начало работы</h2>
+				<p>
+					Если вы последовали рекомендациям, и используете NUnit 2+, для получения
+					полных возможностей расширения NUnitForms, вы должны наследовать свой
+					тестовый класс от класса NUnitFormTest.
+				</p>
+				<p>
+					Если версия более современная (3+), то наследовать нельзя - тесты не заработают.
+					Соответственно, не будут доступны методы класса NUnitFormTest. Это не критично,
+					но может сказаться в неожиданных местах.
+				</p>
+			</section>
+			<section>
+				<h3>Тестовый класс</h3>
+				<p>
+					NUnit 2+ :
+				</p>
+				<pre>
+					<code class="cs">
+using NUnit.Framework;
+using NUnit.Extensions.Forms;
+using System.Windows.Forms;
+
+namespace projectTests
+{
+	[TestFixure]
+	public class WinformGUITests
+	{
+		// Tests
+	}
+}
+					</code>
+				</pre>
+				<p>
+					NUnit 3+ :
+				</p>
+				<pre>
+					<code class="cs">
+using NUnit.Framework;
+using NUnit.Extensions.Forms;
+using System.Windows.Forms;
+
+namespace projectTests : NUnitFormTest
+{
+	[TestFixure]
+	public class WinformGUITests
+	{
+		// Tests
+	}
+}
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Тесты</h2>
+				<p>
+					Сами тесты описываются по манеру стандартных NUnit тестов.
+				</p>
+				<p>
+					В начале любого теста должен создаваться объект тестируемой формы:
+				</p>
+				<pre>
+					<code class="cs">
+Form someForm = new Form();
+someForm.Show();
+					</code>
+				</pre>
+			</section>
+			<section>
+				<section>
+					<h2>ControlTester</h2>
+					<p>
+						Для каждого контрола, который вам нужно протестировать, вы
+						должны использовать объект подходящего класса <i>ControlTester</i>.
+					</p>
+					<p>
+						При создании объекта <i>ControlTester</i>, ему в конструктор передается
+						имя (свойство Name) нужного элемента управления и имя формы, его содержащей.
+					</p>
+					<pre>
+						<code class="cs">
+ButtonTester button = new ButtonTester("buttonName"); // Если открыти одна форма
+
+CheckBoxTester checkBox = new CheckBoxTester("checkBoxName", "formName");
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Произвольный ControlTester</h2>
+					<p>
+						Для тестирования специфичных элементов управления, для которых нет 
+						подходящего ControlTester класса, можно использовать базовый
+						ControlTester класс.
+					</p>
+					<pre>
+						<code class="cs">
+ControlTester someUnusualControl = new ControlTest("nameOfSomeControl");
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Доступ к свойствам</h3>
+					<p>
+						Для того, чтобы обратиться к какому-либо свойству элемента 
+						управления, используется индексация с именем этого свойства.
+					</p>
+					<pre>
+						<code class="cs">
+ControlTester richTextBox = new ControlTest("nameOfRichTextBox");
+Assert.AreEqual("defaultText", textBox["Text"]);
+richTextBox["Text"] = "new text in textBox";
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Вызов событий</h3>
+					<p>
+						Также можно получить доступ к любым событиям. Для вызова события
+						применяется метод FireEvent с параметром названием события.
+					</p>
+					<pre>
+						<code class="cs">
+ControlTester button = new ControlTester("nameOfSomeButton");
+button.FireEvent("Click");
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Свои ControlTester</h3>
+					<p>
+						Если вам неудобно пользоваться базовым классом ControlTester, вы можете
+						реализовать свой ControlTester для нужного элемента управления. Для
+						этого нужно наследовать класс от ControlTester и после этого
+						добавлять всё, что необходимо.
+					</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Имена контролов</h2>
+					<p>
+						NUnitForms находит элементы управления по их Name свойству. Если 
+						у вас есть несколько контролов с одинаковыми именами, вы должны использовать
+						полные пути имен:
+					</p>
+					<pre>
+						<code class="cs">
+	form1
+		panel1
+			userControl1
+				button1
+				button2
+			button1
+			textBox1
+		panel2
+			userControl2
+				button1
+				textBox1
+						</code>
+					</pre>
+					<ul>
+						<li>"panel1.userControl1.button1"</li>
+						<li>"panel1.button1"</li>
+						<li>"panel2.userControl2.button1</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Исключения</h3>
+					<p>
+						Если NUnitForms не удается найти контрол с указанным именем, он
+						выбрасывает исключение NoSuchControlException.
+					</p>
+					<p>
+						Если же обнаруживается сразу несколько элементов управления, 
+						удовлетворяющих указанному имени, метод кидает AmbiguousNameException.
+					</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Работа с диалоговыми окнами</h2>
+					<blockquote>
+						*Доступно только с NUnit 2+
+					</blockquote>
+					<p>
+						Если ваш тест использует методы ShowDialog или по ходу теста открываются
+						другие формы или месседжбоксы, вы должны указать NUnitForms, какую форму
+						ожидать и предоставить метод для ее обработки.
+					</p>
+					<pre>
+						<code class="cs">
+[Test]
+public void TestOKButtonTest()
+{
+	ExpectModal("FormName", "formNameHandler");
+
+	FormName form = new FormName();
+
+	form.ShowDialog();
+
+	// ...
+}
+
+public void formNameHandler()
+{
+	ButtonTester buttonTester = new ButtonTester("okButton", "FormName");
+	Assert.AreEqual("OK", buttonTester.Text, "FormName's OK button text is wrong '" + buttonTester.Text + "'");
+	buttonTester.Click();
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Методы ExpectModal</h3>
+					<p>
+						Для регистрации диалогово окна используется метод <i>ExpectModal</i>.
+						Первым параметром он принимает имя окна, которое должно появиться, а 
+						вторым - название метода-обработчика, для этого окна.
+					</p>
+					<p>
+						Если нужно открыть месседжбокс, то вместо имени окна первым параметром
+						передается его Caption (заголовок).
+					</p>
+					<pre>
+						<code class="cs">
+ExpectModal("messageBoxCaption", "messageBoxClickerMethod");
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<h2>Многопоточные формы</h2>
+				<p>
+					Если вы тестируете форму, использующую несколько потоков, тесты нужно
+					будет слегка переделать. Вам потребуется вынести логику теста в
+					отдельный метод, и привязать этот метод к событию OnFormReady
+					тестируемой формы.
+				</p>
+				<pre>
+					<code class="cs">
+public void fictitiousHandler()
+{
+	// Пустой метод
+}
+
+[Test]
+public void MainFormTest()
+{
+	MainForm mainForm = new MainForm();
+	
+	mainForm.OnFormReady += new EventHandler&lt;EventArgs&gt;(mainFormTestLogic);
+	
+	ExpectModal("MainForm", "fictitiousHandler");
+
+	mainForm.ShowDialog();
+}
+
+public void mainFormTestLogic(object sender, EventArgs e)
+{
+	// Здесь должен быть текст теста
+}
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h3>Источники</h3>
+				<p>
+					Материал взят из
+					<a href="http://nunitforms.sourceforge.net/docs.html">
+						официальной документации
+					</a>.
+				</p>
+				<p>
+					И
+					<a href="https://blogs.msdn.microsoft.com/john_daddamio/2006/11/06/getting-started-with-nunitforms/">
+						поста крутого программиста Джона Д'Аддамио
+					</a>
+				</p>
+			</section>
+		</div>
+	</div>
+	<aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x"></i>
+		</a>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>
