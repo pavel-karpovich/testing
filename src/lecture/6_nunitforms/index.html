@@ -42,11 +42,11 @@
 				<section>
 					<h2>NunitForms</h2>
 					<p>
-						NunitForms - расширение для NUnit, позволяющее с легкостью выполнять
+						NunitForms - расширение для NUnit, позволяющее с лёгкостью выполнять
 						автоматическое тестирование GUI Windows Forms.
 					</p>
 					<p>
-						Бибилиотека позволяет юнит тестам открывать формы и взаимодействовать 
+						Библиотека позволяет юнит тестам открывать формы и взаимодействовать 
 						с элементами управления интерактивно. 
 					</p>
 					<p>
@@ -198,7 +198,7 @@ someForm.Show();
 						должны использовать объект подходящего класса <i>ControlTester</i>.
 					</p>
 					<p>
-						При создании объекта <i>ControlTester</i>, ему в конструктор передается
+						При создании объекта <i>ControlTester</i>, ему в конструктор передаётся
 						имя (свойство Name) нужного элемента управления и имя формы, его содержащей.
 					</p>
 					<pre>
@@ -226,7 +226,7 @@ ControlTester someUnusualControl = new ControlTest("nameOfSomeControl");
 					<h3>Доступ к свойствам</h3>
 					<p>
 						Для того, чтобы обратиться к какому-либо свойству элемента 
-						управления, используется индексация с именем этого свойства.
+						управления, используется индексация с имёнем этого свойства.
 					</p>
 					<pre>
 						<code class="cs">
@@ -265,7 +265,7 @@ button.FireEvent("Click");
 					<p>
 						NUnitForms находит элементы управления по их Name свойству. Если 
 						у вас есть несколько контролов с одинаковыми именами, вы должны использовать
-						полные пути имен:
+						полные пути имён:
 					</p>
 					<pre>
 						<code class="cs">
@@ -291,7 +291,7 @@ button.FireEvent("Click");
 				<section>
 					<h3>Исключения</h3>
 					<p>
-						Если NUnitForms не удается найти контрол с указанным именем, он
+						Если NUnitForms не удаётся найти контрол с указанным именем, он
 						выбрасывает исключение NoSuchControlException.
 					</p>
 					<p>
@@ -309,7 +309,7 @@ button.FireEvent("Click");
 					<p>
 						Если ваш тест использует методы ShowDialog или по ходу теста открываются
 						другие формы или месседжбоксы, вы должны указать NUnitForms, какую форму
-						ожидать и предоставить метод для ее обработки.
+						ожидать и предоставить метод для её обработки.
 					</p>
 					<pre>
 						<code class="cs">
@@ -337,13 +337,13 @@ public void formNameHandler()
 				<section>
 					<h3>Методы ExpectModal</h3>
 					<p>
-						Для регистрации диалогово окна используется метод <i>ExpectModal</i>.
+						Для регистрации диалогового окна используется метод <i>ExpectModal</i>.
 						Первым параметром он принимает имя окна, которое должно появиться, а 
 						вторым - название метода-обработчика, для этого окна.
 					</p>
 					<p>
 						Если нужно открыть месседжбокс, то вместо имени окна первым параметром
-						передается его Caption (заголовок).
+						передаётся его Caption (заголовок).
 					</p>
 					<pre>
 						<code class="cs">
@@ -385,6 +385,98 @@ public void mainFormTestLogic(object sender, EventArgs e)
 }
 					</code>
 				</pre>
+			</section>
+			<section>
+				<section>
+					<h2>Примеры</h2>
+					<span>
+						У нас есть приложение для учёта прочитанных книг.
+					</span>
+				</section>
+				<section>
+					<img src="img/realbooks.jpg" />
+				</section>
+				<section>
+					<h3>Тестируем добавление новой книги</h3>
+					<pre>
+						<code class="cs">
+[Test]
+public void AddNewBook()
+{
+	ExpectModal("AddBook", "AddBookHandler");
+	BooksForm form = new BooksForm();
+	form.Show();
+	ButtonTester add = new ButtonTester("button2", "BooksForm");
+	add.Click();
+	Assert.AreEqual(
+		form.BooksContoller.GetReading().Where(b => b.Id == "978-1617292231").Count(),
+		1
+		);
+}
+
+public void AddBookHandler()
+{
+	TextBoxTester isbn = new TextBoxTester("textBox1", "AddBook");
+	TextBoxTester title = new TextBoxTester("textBox2", "AddBook");
+	TextBoxTester author = new TextBoxTester("textBox3", "AddBook");
+	TextBoxTester publisher = new TextBoxTester("textBox4", "AddBook");
+	TextBoxTester pages = new TextBoxTester("textBox5", "AddBook");
+	TextBoxTester edition = new TextBoxTester("textBox6", "AddBook");
+	TextBoxTester year = new TextBoxTester("textBox7", "AddBook");
+
+	isbn.Enter("978-1617292231");
+	title.Enter("Grokking Algorithms: An illustrated guide for programmers and other curious people");
+	author.Enter("Aditya Bhargava");
+	publisher.Enter("Manning Publications");
+	pages.Enter("256");
+	edition.Enter("1 edition");
+	year.Enter("2016");
+
+	ButtonTester ok = new ButtonTester("button1", "AddBook");
+	ok.Click();
+}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h3>Тестируем перенос книг в прочитанное</h3>
+					<pre>
+						<code class="cs">
+[Test]
+public void Push2ToDone()
+{
+	BooksForm form = new BooksForm();
+	form.Show();
+	ControlTester readTable = new ControlTester("dataGridView2");
+	var rows = (DataGridViewRowCollection)readTable["Rows"];
+	((DataGridViewCheckBoxCell)rows[0].Cells["Done"]).Selected = true;
+	((DataGridViewCheckBoxCell)rows[1].Cells["Done"]).Selected = true;
+	string title1 = rows[0].Cells["Title"].Value.ToString();
+	string title2 = rows[1].Cells["Title"].Value.ToString();
+
+	ButtonTester push = new ButtonTester("button1");
+	push.Click();
+
+	Assert.AreEqual(
+		1,
+		form.BooksContoller.GetDone().Where(b => b.Title == title1).Count()
+		);
+	Assert.AreEqual(
+		1,
+		form.BooksContoller.GetDone().Where(b => b.Title == title2).Count()
+		);
+	Assert.AreEqual(
+		0,
+		form.BooksContoller.GetReading().Where(b => b.Title == title1).Count()
+		);
+	Assert.AreEqual(
+		0,
+		form.BooksContoller.GetReading().Where(b => b.Title == title1).Count()
+		);
+}
+						</code>
+					</pre>
+				</section>
 			</section>
 			<section>
 				<h3>Источники</h3>

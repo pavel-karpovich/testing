@@ -19,9 +19,12 @@ const gulp = require('gulp'),
     jshintReporter = require('gulp-jshint-html-reporter'),
     uglify = require('gulp-uglify'),
     useref = require('gulp-useref'),
-    watch = require('gulp-watch');
+    watch = require('gulp-watch'),
+    run = require('gulp-run');
 
 //variables
+
+const yaspellerDictionary = 'yadict.json';
 
 const srcPath = {
     'src': './src',
@@ -70,6 +73,7 @@ const pluginSettings = {
 gulp.task('clean', () => {
     return del([srcPath.analysis, distPath.dist]);
 });
+
 
 gulp.task('html', () => {
     return gulp.src(srcPath.html)
@@ -143,6 +147,15 @@ gulp.task('task', () => {
 gulp.task('cmpl', () => {
     return gulp.src(srcPath.cmpl)
         .pipe(gulp.dest(distPath.cmpl));
+});
+
+gulp.task('yaspeller', function(cb) {
+    run(`npx yaspeller --dictionary ${yaspellerDictionary} ./`).exec()
+        .on('error', function(err) {
+            console.error(err.message);
+            cb();
+        })
+        .on('finish', cb);
 });
 
 gulp.task('build', gulpSequence('clean', ['js:lint', 'css:lint'], [

@@ -42,7 +42,7 @@
 
 Расширение NUnit NUnitForms. Автоматизированное тестирование GUI. Больше и написать то нечего.
 
-[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/5_moq/index.html "Лекция")
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/6_nunitforms/index.html "Лекция")
 
 ## Задания
 
