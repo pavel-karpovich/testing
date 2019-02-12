@@ -1,26 +1,21 @@
 //modules
 
-const gulp = require('gulp'),
-    gulpif = require('gulp-if'),
-    gulpSequence = require('gulp-sequence'),
+const browserSync = require('browser-sync'),
+    del = require('del'),
+    gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
-    browserSync = require('browser-sync'),
-    concat = require('gulp-concat'),
     cleanCSS = require('gulp-clean-css'),
     csslint = require('gulp-csslint'),
-    csslintReporter = require('gulp-csslint-report'),
-    del = require('del'),
+    gulpif = require('gulp-if'),
     imagemin = require('gulp-imagemin'),
-    newer = require('gulp-newer'),
-    rename = require('gulp-rename'),
-    pipe = require('multipipe'),
-    sourcemaps = require('gulp-sourcemaps'),
     jshint = require('gulp-jshint'),
-    jshintReporter = require('gulp-jshint-html-reporter'),
-    uglify = require('gulp-uglify'),
+    newer = require('gulp-newer'),
+    run = require('gulp-run'),
+    sourcemaps = require('gulp-sourcemaps'),
+    uglify = require('gulp-uglify-es').default,
     useref = require('gulp-useref'),
     watch = require('gulp-watch'),
-    run = require('gulp-run');
+    pipe = require('multipipe');
 
 //variables
 
@@ -29,7 +24,7 @@ const yaspellerDictionary = 'yadict.json';
 const srcPath = {
     'src': './src',
     'html': './src/**/*.html',
-    'img': './src/**/*.+(jpg|jpeg|png|svg)',
+    'img': './src/**/*.+(jpg|jpeg|png|svg|gif)',
     'css': ['./src/!(css|js)*/**/*.css'],
     'cssLint': './src/**/*.css',
     'js': './src/!(js)*/**/*.js',
@@ -37,7 +32,8 @@ const srcPath = {
     'font': './src/font/**/*.*',
     'analysis': './code-analysis/',
     'task': './src/task/**/*.pdf',
-    'cmpl': './src/completed/**/*.*'
+    'cmpl': './src/completed/**/*.*',
+    'print': './src/css/print/*.css',
 };
 
 const distPath = {
@@ -45,6 +41,7 @@ const distPath = {
     'html': './dist/',
     'img': './dist/',
     'css': './dist/css/',
+    'print': './dist/css/print',
     'js': './dist/',
     'font': './dist/font/',
     'task': './dist/task/',
@@ -70,19 +67,18 @@ const pluginSettings = {
 
 //tasks
 
-gulp.task('clean', () => {
+const cleanDist = function() {
     return del([srcPath.analysis, distPath.dist]);
-});
+}
 
-
-gulp.task('html', () => {
+const parseHtml = function() {
     return gulp.src(srcPath.html)
         .pipe(newer(distPath.html))
         .pipe(useref({}, pipe(sourcemaps.init)))
-        .pipe(gulpif('*.js', pipe(
+        .pipe(gulpif("*.js", pipe(
             uglify()
         )))
-        .pipe(gulpif('*.css',
+        .pipe(gulpif("*.css",
             pipe(
                 autoprefixer(pluginSettings.autoprefixer),
                 cleanCSS(pluginSettings.cleanCSS)
@@ -90,92 +86,102 @@ gulp.task('html', () => {
         ))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(distPath.html));
-});
+}
 
-gulp.task('css', () => {
+const parseCss = function() {
     return gulp.src(srcPath.css)
         .pipe(sourcemaps.init())
         .pipe(autoprefixer(pluginSettings.autoprefixer))
         .pipe(cleanCSS(pluginSettings.cleanCSS))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(distPath.css));
-});
+}
 
-gulp.task('css:lint', () => {
+const lintCss = function() {
     return gulp.src(srcPath.cssLint)
-        .pipe(csslint('.csslintrc'))
-        .pipe(csslintReporter(pluginSettings.csslint));
-});
+        .pipe(csslint(".csslintrc"));
+}
 
-gulp.task('js', () => {
+const copyJs = function() {
     return gulp.src(srcPath.js)
         .pipe(gulp.dest(distPath.js));
-});
+}
 
-gulp.task('js:lint', () => {
+const lintJs = function() {
     return gulp.src(srcPath.jsLint)
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter(jshintReporter, pluginSettings.jshint));
-});
+        .pipe(jshint(".jshintrc"));
+}
 
-gulp.task('img', () => {
+const parseImages = function() {
     return gulp.src(srcPath.img)
         .pipe(newer(distPath.img))
         .pipe(imagemin())
         .pipe(gulp.dest(distPath.img));
-});
+}
 
-gulp.task('font', () => {
+const copyFonts = function() {
     return gulp.src(srcPath.font)
         .pipe(gulp.dest(distPath.font));
-});
+}
 
-gulp.task('serve', () => {
+const copyTaskFiles = function() {
+    return gulp.src(srcPath.task)
+        .pipe(gulp.dest(distPath.task));
+}
+
+const copyCompletedFiles = function() {
+    return gulp.src(srcPath.cmpl)
+        .pipe(gulp.dest(distPath.cmpl));
+}
+
+const copyPrintJsFiles = function() {
+    return gulp.src(srcPath.print)
+        .pipe(gulp.dest(distPath.print))
+}
+
+const copyHlJsFiles = function() {
+    return gulp.src('./src/js/highlight/*.js')
+        .pipe(gulp.dest('./dist/js/'))
+}
+
+const lint = gulp.parallel(lintJs, lintCss);
+const translate = gulp.parallel(parseHtml, parseCss, copyJs, parseImages, copyFonts, copyTaskFiles, copyCompletedFiles, copyPrintJsFiles, copyHlJsFiles);
+
+const build = gulp.series(cleanDist, lint, translate);
+
+const watchServ = function() {
+
+    watch(srcPath.css, parseCss);
+    watch(srcPath.html, parseHtml);
+    watch(srcPath.js, copyJs);
+    watch(srcPath.img, parseImages);
+    watch(srcPath.font, copyFonts);
+    watch(srcPath.task, copyTaskFiles);
+    watch(srcPath.cmpl, copyCompletedFiles);
+    watch(srcPath.print, copyPrintJsFiles);
+    watch('./src/js/highlight/*.js', copyHlJsFiles);
+
+}
+
+const serveDir = function() {
     browserSync.init({
         server: distPath.dist,
         port: 4000
     });
+    browserSync.watch(distPath.dist).on("change", browserSync.reload);
+}
 
-    browserSync.watch(distPath.dist).on('change', browserSync.reload);
-});
+const serverWatch = gulp.parallel(watchServ, serveDir);
+const default_task = gulp.series(build, serverWatch);
 
-gulp.task('task', () => {
-    return gulp.src(srcPath.task)
-        .pipe(gulp.dest(distPath.task));
-});
-
-gulp.task('cmpl', () => {
-    return gulp.src(srcPath.cmpl)
-        .pipe(gulp.dest(distPath.cmpl));
-});
-
-gulp.task('yaspeller', function(cb) {
-    run(`npx yaspeller --dictionary ${yaspellerDictionary} ./`).exec()
-        .on('error', function(err) {
+const ya = function(cb) {
+    run(`npx yaspeller .\\`).exec()
+        .on("error", function(err) {
             console.error(err.message);
             cb();
         })
-        .on('finish', cb);
-});
+        .on("finish", cb);
+}
 
-gulp.task('build', gulpSequence('clean', ['js:lint', 'css:lint'], [
-    'html',
-    'img',
-    'js',
-    'css',
-    'font',
-    'task',
-    'cmpl'
-]));
-
-gulp.task('watch', () => {
-    watch(srcPath.css, () => gulp.start('css'));
-    watch(srcPath.html, () => gulp.start('html'));
-    watch(srcPath.js, () => gulp.start('js'));
-    watch(srcPath.img, () => gulp.start('img'));
-    watch(srcPath.font, () => gulp.start('font'));
-    watch(srcPath.task, () => gulp.start('task'));
-    watch(srcPath.cmpl, () => gulp.start('cmpl'));
-});
-
-gulp.task('default', gulpSequence('build', ['watch', 'serve']));
+module.exports.default = default_task;
+module.exports.ya = ya;
