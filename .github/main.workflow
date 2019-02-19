@@ -8,4 +8,7 @@ action "GitHub Pages Deploy" {
   secrets = [
     "GH_PAT",
   ]
+  env = {
+    BUILD_DIR = "/"
+  }
 }
