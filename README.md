@@ -44,6 +44,24 @@
 
 [Лекция](https://tgjmjgj.github.io/testing/dist/lecture/6_nunitforms/index.html "Лекция")
 
+## Тема 7. Selenium Web Driver
+
+Движок веб-браузеров. Тестирование веб страниц. Страничная архитектура. Селекторы. XPath.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/7_selenium/index.html "Лекция")
+
+## Тема 8. Git в одиночестве
+
+Контроль версий. Git. Установка и настройка. Базовые команды. Фиксация изменений. Ветвление.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/8_git/index.html "Лекция")
+
+## Тема 9. Git в команде
+
+Коллективная работа над проектом. Удалённые репозитории. Разрешение конфликтов. Рабочие процессы с Git.
+
+[Лекция](https://tgjmjgj.github.io/testing/dist/lecture/9_git_workflow/index.html "Лекция")
+
 ## Задания
 
 * 1 [_Спецификация_ _ПО_](https://tgjmjgj.github.io/testing/dist/task/1_spec/1.pdf "Задание 1")
