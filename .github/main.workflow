@@ -9,6 +9,6 @@ action "GitHub Pages Deploy" {
     "GH_PAT",
   ]
   env = {
-    BUILD_DIR = "/."
+    BUILD_DIR = "/dist"
   }
 }
