@@ -11,5 +11,4 @@ action "GitHub Pages Deploy" {
   env = {
     BUILD_DIR = "/dist"
   }
-  runs = "cd / && ls"
 }
