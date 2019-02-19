@@ -1,4 +1,4 @@
-workflow "New workflow" {
+workflow "Deploy dist to gh-pages on push" {
   on = "push"
   resolves = ["GitHub Pages Deploy"]
 }
