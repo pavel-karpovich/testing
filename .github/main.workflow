@@ -5,5 +5,7 @@ workflow "New workflow" {
 
 action "GitHub Pages Deploy" {
   uses = "maxheld83/ghpages@v0.2.0"
-  secrets = ["GITHUB_TOKEN"]
+  secrets = [
+    "GH_PAT",
+  ]
 }
