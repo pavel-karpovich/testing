@@ -45,8 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("theme", theme.dataset.theme);
             selectedTheme.classList.replace("theme-" + savedTheme, "theme-" + theme.dataset.theme);
             savedTheme = theme.dataset.theme;
+            e.stopPropagation();
 
         });
     }
+    
+    document.addEventListener("click", function() {
+        
+        if (!hiddenPanel.classList.contains("invisible")) {
+
+            hiddenPanel.classList.add("invisible");
+
+        }
+        
+    });
+
+    hiddenPanel.addEventListener("click", (e) => e.stopPropagation());
 
 });
