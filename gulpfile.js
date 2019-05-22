@@ -19,20 +19,18 @@ const browserSync = require('browser-sync'),
 
 //variables
 
-const yaspellerDictionary = 'yadict.json';
-
 const srcPath = {
     'src': './src',
     'html': './src/**/*.html',
     'img': './src/**/*.+(jpg|jpeg|png|svg|gif)',
     'css': ['./src/!(css|js)*/**/*.css'],
     'cssLint': './src/**/*.css',
-    'js': './src/!(js)*/**/*.js',
-    'jsLint': ['./src/**/*.js', '!./src/**/*.min.js'],
+    'js': './src/!(js|completed)*/**/*.js',
+    'jsLint': ['./src/**/*.js', '!./**/node_modules/**', '!./src/**/*.min.js'],
     'font': './src/font/**/*.*',
     'analysis': './code-analysis/',
-    'task': './src/task/**/*.pdf',
-    'cmpl': './src/completed/**/*.*',
+    'task': './src/task/**/*.+(pdf|тых|html|css)',
+    'cmpl': ['./src/completed/**/*.*', '!./**/node_modules/**'],
     'print': './src/css/print/*.css'
 };
 

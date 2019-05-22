@@ -136,12 +136,20 @@
 	flex-flow: row nowrap; 
 }
 
+.separator {
+	min-width: 10px;
+	cursor: col-resize;
+}
+.separator:hover {
+	background-color: rgba(60, 60, 60, .7);
+}
 .c1 {
 	flex: 1;
+	max-width: 50%;
 }
 
 .c2 {
-	flex: 2;
+	flex: 2 1 50%;
 }
 
 .c3 {
@@ -151,13 +159,42 @@
 div.reveal {
 	font-size: 30px;
 }
+.reveal .flex pre {
+	width: 100%;
 
+}
 
 table.centred-table td {
 	vertical-align: middle;
 	border: none;
 }
 
+.no-border {
+	border: unset !important;
+}
+
+.no-shadow {
+	box-shadow: unset !important;
+}
+
+.color-1 {
+	color: #405a45;
+}
+.color-2 {
+	color: rgb(148, 204, 158);
+}
+.color-3 {
+	color: rgb(130, 207, 226);
+}
+.color-4 {
+	color: rgb(31, 143, 126);
+}
+.color-5 {
+	color: rgb(95, 109, 172);
+}
+.color-6 {
+	color: rgb(55, 45, 145);
+}
 #presentable-theme-picker {
 	position: relative;
 	left: 0;
