@@ -26,6 +26,10 @@ html {
 /* Remove any elements not needed in print. */
 .nestedarrow,
 .reveal .controls,
+<<<<<<< HEAD
+=======
+.controls,
+>>>>>>> eb998c3736fd6976b12bfd4e0baf245d21a0ca8f
 .reveal .progress,
 .reveal .playback,
 .reveal.overview,

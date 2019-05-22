@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
-@import url(/src/font/league-gothic/league-gothic.css);
+@import url(../../font/league-gothic/league-gothic.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 /*********************************************
  * GLOBAL STYLES
@@ -59,13 +59,13 @@ body {
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 3.77em; }
+  font-size: 2em; }
 
 .reveal h2 {
-  font-size: 2.11em; }
+  font-size: 1.7em; }
 
 .reveal h3 {
-  font-size: 1.55em; }
+  font-size: 1.3em; }
 
 .reveal h4 {
   font-size: 1em; }
@@ -254,7 +254,8 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls {
+.reveal .controls,
+.controls {
   color: #8b743d; }
 
 /*********************************************
@@ -275,3 +276,7 @@ body {
 @media print {
   .backgrounds {
     background-color: #f7f3de; } }
+
+#hidden-bar {
+
+}
