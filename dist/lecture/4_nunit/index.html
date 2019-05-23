@@ -113,13 +113,11 @@
 					<p>
 						Можно сделать это через GUI, а можно через Консоль Пакетного Менеджера:
 					</p>
-					<pre>
-						<code class="shell">
+					<pre><code class="shell">
 Install-Package NUnit -Version 3.10.1 -Package &lt; имя_тестовой_сборки &gt;
 Install-Package NUnit.Console -Version 3.8.0 -Package &lt; имя_тестовой_сборки &gt;
 Install-Package NUnit3TestAdapter -Version 3.10.0 -Package &lt; имя_тестовой_сборки &gt;
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Установка облегчённой NUnitLite версии через NuGet</h2>
@@ -131,11 +129,9 @@ Install-Package NUnit3TestAdapter -Version 3.10.0 -Package &lt; имя_тест�
 					<p>
 						Для установки требуется пакет NUnitLite:
 					</p>
-					<pre>
-						<code class="shell">
+					<pre><code class="shell">
 Install-Package NUnitLite -Version 3.10.1 -Package &lt; имя_тестовой_сборки &gt;
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Скачивание Zip архива с официального сайта</h2>
@@ -164,8 +160,7 @@ Install-Package NUnitLite -Version 3.10.1 -Package &lt; имя_тестовой_
 				</section>
 				<section>
 					<h3>Тестируемый класс</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 public class User
 {
 
@@ -216,8 +211,7 @@ public class UserControl
 	// ...
 
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Тестируем</h3>
@@ -231,8 +225,7 @@ public class UserControl
 				</section>
 				<section>
 					<h2>Тест</h2>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 using System;
 using NUnit.Framework;
 
@@ -267,8 +260,7 @@ namespace Bookapp.Tests
 		}
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Дополнительные тесты</h2>
@@ -284,8 +276,7 @@ namespace Bookapp.Tests
 				</section>
 				<section>
 					<h2>Больше тестов</h2>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [Test]
 public void ChangeLastName_InvalidUserId_UserNotFound()
 {
@@ -374,8 +365,7 @@ public void ChangeLastName_EmptyNewLastname_LastnameRejected()
 	Assert.IsFalse(result);
 	Assert.IsNull(list.Find(usr => usr.lastname == newLastname));
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Первый баг</h2>
@@ -389,8 +379,7 @@ public void ChangeLastName_EmptyNewLastname_LastnameRejected()
 				</section>
 				<section>
 					<h2>Исправляем метод</h2>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 public bool ChangeLastname(int userId, string newLastname)
 {
 	if (newLastname == "" || newLastname == null)
@@ -403,8 +392,7 @@ public bool ChangeLastname(int userId, string newLastname)
 	}
 	return false;
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Результат</h2>
@@ -449,8 +437,7 @@ public bool ChangeLastname(int userId, string newLastname)
 					<p>
 						По умолчанию всегда применяется режим MTA, поэтому указывать его нет необходимости.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [assembly:Apartment(ApartmentState.STA)]
 
 [TestFixture, Apartment(ApartmentState.STA)]
@@ -461,16 +448,14 @@ public class FixtureRequiringSTA
 	{
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут Author</h3>
 					<p>
 						Добавляет информацию об авторе теста/тестового класса.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [TestFixture]
 [Author("Jane Doe", "jane.doe@example.com")]
 public class MyTests
@@ -482,8 +467,7 @@ public class MyTests
 	[Author("Joe Developer")]
 	public void Test2() { /* ... */ }
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут Category</h3>
@@ -492,8 +476,7 @@ public class MyTests
 						категориям. Это позволяет выполнять тесты определённых категорий, или
 						же наоборот, исключать из выполнения некоторые группы тестов.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 namespace NUnit.Tests
 {
 	using System;
@@ -508,15 +491,13 @@ namespace NUnit.Tests
 		{ /* ... */ }
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут Description</h3>
 					<p>
 						Позволяет добавить описание.
-						<pre>
-							<code class="cs">
+						<pre><code class="cs">
 [assembly: Description("Assembly description here")]
 
 namespace NUnit.Tests
@@ -532,8 +513,7 @@ namespace NUnit.Tests
 		{ /* ... */ }
 	}
 }
-							</code>
-						</pre>
+						</code></pre>
 					</p>
 				</section>
 				<section>
@@ -542,8 +522,7 @@ namespace NUnit.Tests
 						Используется для обозначения того, что тест по некоторым
 						причинам не должен исполняться. Например, если тест устарел.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 namespace NUnit.Tests
 {
 	using System;
@@ -556,8 +535,7 @@ namespace NUnit.Tests
 		// ...
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут MaxTime</h3>
@@ -565,15 +543,13 @@ namespace NUnit.Tests
 						Атрибут применим только на уровне тестов. Задаёт максимальное
 						допустимое время выполнения теста в миллисекундах.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [Test, MaxTime(2000)]
 public void TimedTest()
 {
 	//...
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибуты SetUp TearDown</h3>
@@ -582,8 +558,7 @@ public void TimedTest()
 						методов, выполняющихся перед выполнением каждого теста в этом же
 						классе (SetUp) и после завершения (TearDown).
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 namespace NUnit.Tests
 {
 	using System;
@@ -602,8 +577,7 @@ namespace NUnit.Tests
 		{ /* ... */ }
 		}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут Test</h3>
@@ -622,8 +596,7 @@ namespace NUnit.Tests
 				</section>
 				<section>
 					<h3>Атрибут Test 2</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 namespace NUnit.Tests
 {
 	using System;
@@ -663,8 +636,7 @@ namespace NUnit.Tests
 		}
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>	
 				<section>
 					<h3>Атрибут TestCase</h3>
@@ -673,8 +645,7 @@ namespace NUnit.Tests
 						как метод теста, и в то же время предоставляет данные для вызова
 						этого метода.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [TestCase(12, 3, 4)]
 [TestCase(12, 2, 6)]
 [TestCase(12, 4, 3)]
@@ -682,14 +653,12 @@ public void DivideTest(int n, int d, int q)
 {
 	Assert.AreEqual(q, n / d);
 }
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Для данного атрибута существует множество параметров, являющихся
 						аналогами других атрибутов, например ExpectedResult.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [TestCase(12, 3, ExpectedResult=4)]
 [TestCase(12, 2, ExpectedResult=6)]
 [TestCase(12, 4, ExpectedResult=3)]
@@ -697,8 +666,7 @@ public int DivideTest(int n, int d)
 {
 	return n / d;
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут TestFixure</h3>
@@ -707,8 +675,7 @@ public int DivideTest(int n, int d)
 						Не рекомендуется производить какие-либо действия в конструкторе
 						такого класса.
 					</p>
-					<pre>
-						<code clas="cs">
+					<pre><code clas="cs">
 namespace NUnit.Tests
 {
 	using System;
@@ -720,8 +687,7 @@ namespace NUnit.Tests
 		// ...
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Также стоит отметить, что атрибут TestFixure наследуется
 						вместе с классом.
@@ -736,8 +702,7 @@ namespace NUnit.Tests
 						Параметризированных TestFixure может быть несколько, по аналогии с
 						атрибутами TesCase.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [TestFixture("hello", "hello", "goodbye")]
 [TestFixture("zip", "zip")]
 [TestFixture(42, 42, 99)]
@@ -780,8 +745,7 @@ public class ParameterizedTestFixture
 			Assert.AreNotEqual(eq1.GetHashCode(), neq.GetHashCode());
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Атрибут TestFixure 3</h3>
@@ -790,8 +754,7 @@ public class ParameterizedTestFixture
 						В этом случае в качестве параметров атрибута передаются
 						подстановочные типы для класса.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 [TestFixture(typeof(ArrayList))]
 [TestFixture(typeof(List<int>))]
 public class IList_Tests<TList> where TList : IList, new()
@@ -811,8 +774,7 @@ public class IList_Tests<TList> where TList : IList, new()
 		Assert.AreEqual(3, list.Count);
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>...и многие другие</h3>
@@ -866,11 +828,9 @@ public class IList_Tests<TList> where TList : IList, new()
 					<p>
 						Простейший пример:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 StringAssert.AreEqualIgnoringCase("Hello", myString);
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Существует несколько классов для разных Assert-ов:
 					</p>
@@ -1149,14 +1109,12 @@ StringAssert.AreEqualIgnoringCase("Hello", myString);
 					<p>
 						Сразу посмотрим на пример:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 int[] array = new int[] { 1, 2, 3 };
 Assert.That(array, Has.Exactly(1).EqualTo(3));
 Assert.That(array, Has.Exactly(2).GreaterThan(1));
 Assert.That(array, Has.Exactly(3).LessThan(100));
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Такие утверждения задать с помощью Классической модели
 						просто невозможно.
@@ -1164,12 +1122,10 @@ Assert.That(array, Has.Exactly(3).LessThan(100));
 					<p>
 						Эквивалентные записи разными моделями:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 Assert.AreEqual(4, 2 + 2);
 Assert.That(2 + 2, Is.EqualTo(4));
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Принципы модели ограничений</h2>
@@ -1178,13 +1134,11 @@ Assert.That(2 + 2, Is.EqualTo(4));
 						Первым аргументом передаётся объект, над которым прописывается утверждение,
 						а вторым параметром - накладываемые на него ограничения.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 Assert.That(myString, Is.EqualTo("Hello"));
 // аналогично
 Assert.That(myString, new EqualConstraint("Hello"));
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						В новой модели также существует возможность создания пользовательских
 						ограничений.
@@ -1211,8 +1165,7 @@ Assert.That(myString, new EqualConstraint("Hello"));
 						утверждений, что рассмотреть их полностью вряд ли возможно - варианты комбинаций
 						ограничений просто бесконечны.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 Assert.That(array,
 	Has.Length.InRange(1, 10)
 	.And.Ordered.Ascending.After(1000).MilliSeconds
@@ -1221,8 +1174,7 @@ Assert.That(array,
 	.And.Exactly(1).GreaterThan(2)
 			.Or.Negative
 );
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -1235,8 +1187,7 @@ Assert.That(array,
 				<p>
 					Для создания предупреждений используется класс Warn и метод Assert.Warn.
 				</p>
-				<pre>
-					<code class="cs">
+				<pre><code class="cs">
 // Использование Warn с условием отрицания
 Warn.If(2 + 2 != 5);
 Warn.If(2 + 2, Is.Not.EqualTo(5));
@@ -1249,8 +1200,7 @@ Warn.Unless(() => 2 + 2, Is.EqualTo(5).After(3000));
 
 // Выдать предупреждение
 Assert.Warn("Warning message");
-					</code>
-				</pre>
+				</code></pre>
 				<img src="img/warn.jpg" />
 			</section>
 			<section>

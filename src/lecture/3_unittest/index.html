@@ -167,8 +167,7 @@
 						<code>ИмяМетодаКоторыйТестируем_СутьДействия_ОжидаемыйРезультат</code>
 					</p>
 					Например:
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 class UserControllerTests 
 {
 
@@ -177,8 +176,7 @@ class UserControllerTests
 		// ...
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -199,8 +197,7 @@ class UserControllerTests
 				</section>
 				<section>
 					<h2>Демонстрация:</h2>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public void AddUser_CorrectNewUser_True() 
 {
 
@@ -216,8 +213,7 @@ public void AddUser_CorrectNewUser_True()
 	// Assert
 	Assert.AreEquals(true, ret);
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -264,8 +260,7 @@ public void AddUser_CorrectNewUser_True()
 				</section>
 				<section>
 					<h2>Класс с зависимостями</h2>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public class UserController : ManagementController
 {
 
@@ -282,13 +277,11 @@ public class UserController : ManagementController
 		this.status = new AccountStatus("Open");
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Фальшивая реализация</h2>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public class UserController : ManagementController
 {
 
@@ -317,8 +310,7 @@ public class UserController : ManagementController
 		this.status = new AccountStatus("Open");
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -349,8 +341,7 @@ public class UserController : ManagementController
 				</section>
 				<section>
 					<h2>Стаб в коде</h2>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 public void GetUserInfo_ValidUser_FirstId() 
 {
 	// Arrange
@@ -366,8 +357,7 @@ public void GetUserInfo_ValidUser_FirstId()
 	Assert.That(userId != null);
 
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h1>Мок</h1>
@@ -387,8 +377,7 @@ public void GetUserInfo_ValidUser_FirstId()
 				</section>
 				<section>
 					<h2>Мок в коде</h2>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 public void AddPurchase_OneBook_TransactionVerify()
 {
 	// Arrange
@@ -403,8 +392,7 @@ public void AddPurchase_OneBook_TransactionVerify()
 	tran.Verify(s => s.PurchaseBag(It.IsAny&lt;Book&gt;()), Count.Exactly(1));
 	tran.Verify(s => s.CostRequest(It.IsAny&lt;int&gt;()), Times.Once());
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -471,8 +459,7 @@ public void AddPurchase_OneBook_TransactionVerify()
 						«спрятать» от основного приложения, если выделить интерфейс 
 						фабрики и работать в продакшн-коде по интерфейсной ссылке.
 					</p>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public interface IUserManagerFactory
 {
 	IUserManager Get();
@@ -506,8 +493,7 @@ public class UserManagerFactory : IUserManagerFactory
 		_instance = userManager;
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Подмена фабрики</h2>
@@ -516,8 +502,7 @@ public class UserManagerFactory : IUserManagerFactory
 						или создание виртуальной функции, создание объектов. После этого вы 
 						сможете переопределить фабричные методы так, чтобы они возвращали ваши подделки.
 					</p>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public interface IUserManagerFactory
 {
 	IUserManager Get();
@@ -558,8 +543,7 @@ public class FakeUserManagerFactory : IUserManagerFactory
 		return userMng;
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Переопределение локального фабричного метода</h2>
@@ -573,8 +557,7 @@ public class FakeUserManagerFactory : IUserManagerFactory
 				</section>
 				<section>
 					<h2>Класс калькулятор</h2>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public class Calculator
 {
 	public double Multipy(double a, double b)
@@ -596,8 +579,7 @@ public class Multiplier : IArithmetic
 		return a * b;
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Итак</h3>
@@ -610,8 +592,7 @@ public class Multiplier : IArithmetic
 				</section>
 				<section>
 					<h2>Усовершенствованный код</h2>
-					<pre>
-						<code class="sharp">
+					<pre><code class="sharp">
 public class Calculator
 {
 	public double Multipy(double a, double b)
@@ -642,8 +623,7 @@ public class FakeMultiplier : IArithmetic
 		return 5;
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>

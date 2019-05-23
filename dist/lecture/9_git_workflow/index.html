@@ -100,31 +100,25 @@
                 </section>
                 <section>
                     <h2>Добавление удалённого репозитория</h2>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git remote add имя адрес_репозитория
 
 git remote add origin git@github.com:Tgjmjgj/WpfTestGit.git
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
                 <section>
                     <h2>Список удалённых репозиториев</h2>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git remote -v
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
                 <section>
                     <h2>Связывание локальных и удалённых ветвей</h2>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git branch -u имя_удалённого_репозитория/имя_ветви
 
 git branch -u origin/master
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
             </section>
             <section>
@@ -133,14 +127,12 @@ git branch -u origin/master
                 </section>
                 <section>
                     <h2>push</h2>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git push
 git push имя_удалённого_репозитория имя_ветви
 
 git push origin master
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
             </section>
             <section>
@@ -152,11 +144,9 @@ git push origin master
                     <p>
                         Команда fetch используется для получения данных из удалённого репозитория.
                     </p>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git fetch
-                        </code>
-                    </pre>
+                    </code></pre>
                     <p>
                         Fetch не выполняет слияния полученной ветки с локальной, он просто сохраняет её отдельно,
                         под именем имя_удалённого_репозитория/имя_ветви (origin/master).
@@ -174,11 +164,9 @@ git fetch
                     <p>
                         pull = fetch + merge
                     </p>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git pull
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
             </section>
             <section>
@@ -197,8 +185,7 @@ git pull
                 </section>
                 <section>
                     <h2>Настройка mergetool</h2>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git config --global --add merge.tool kdiff3
 git config --global --add mergetool.kdiff3.path "C:/Program Files/KDiff3/kdiff3.exe"
 git config --global --add mergetool.kdiff3.trustExitCode false
@@ -206,16 +193,13 @@ git config --global --add mergetool.kdiff3.trustExitCode false
 git config --global --add diff.guitool kdiff3
 git config --global --add difftool.kdiff3.path "C:/Program Files/KDiff3/kdiff3.exe"
 git config --global --add difftool.kdiff3.trustExitCode false
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
                 <section>
                     <h2>Использование mergetool</h2>
-                    <pre>
-                        <code class="bash">
+                    <pre><code class="bash">
 git mergetool
-                        </code>
-                    </pre>
+                    </code></pre>
                 </section>
             </section>
             <section>

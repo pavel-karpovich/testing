@@ -99,11 +99,9 @@
 				<p>
 					Здесь всё просто - нужен пакет Moq.
 				</p>
-				<pre>
-					<code class="cs">
+				<pre><code class="cs">
 Install-Package Moq -Version 4.8.2 -Package &lt; имя_тестовой_сбоки &gt;
-					</code>
-				</pre>
+				</code></pre>
 			</section>
 			<section>
 				<section>
@@ -125,27 +123,23 @@ Install-Package Moq -Version 4.8.2 -Package &lt; имя_тестовой_сбо�
 						В качестве примера проверки состояния будем рассматривать 
 						набор юнит тестов для следующего интерфейса:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 public interface ILoggerDependency 
 { 
 	string GetCurrentDirectory(); 
 	string GetDirectoryByLoggerName(string loggerName); 
 	string DefaultLogger { get; } 
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Mock.Of</h3>
 					<p>
 						Основной метод для создания фальшивых зависимостей.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 Mock.Of&lt;подменяемая_сущность&gt;(внедренное_поведение)
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Метод непосредственно возвращает готовый объект-заглушку,
 						в котором все методы возвращают значения по умолчанию
@@ -154,31 +148,27 @@ Mock.Of&lt;подменяемая_сущность&gt;(внедренное_по
 				</section>
 				<section>
 					<h3>Первый стаб</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 ILoggerDependency loggerDependency =
 	Mock.Of&lt;ILoggerDependency&gt;(d => d.GetCurrentDirectory() == "D:\\Temp");
 var currentDirectory = loggerDependency.GetCurrentDirectory();
 	
 Assert.That(currentDirectory, Is.EqualTo("D:\\Temp"));
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						При вызове метода GetCurrentDirectory() мы получим строку "D:\\Temp".
 					</p>
 				</section>
 				<section>
 					<h3>Ещё стаб</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 ILoggerDependency loggerDependency = Mock.Of&lt;ILoggerDependency&gt;(
 		ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;()) == "C:\\Foo");
 		
 string directory = loggerDependency.GetDirectoryByLoggerName("anything");
 		
 Assert.That(directory, Is.EqualTo("C:\\Foo"));
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Для того, чтобы создать метод с параметрами, используется дополнительный
 						класс-хелпер It. В данном примере запись <i>It.IsAny&lt;string&gt;</i>
@@ -191,8 +181,7 @@ Assert.That(directory, Is.EqualTo("C:\\Foo"));
 				</section>
 				<section>
 					<h3>Усложним</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 Mock&lt;ILoggerDependency&gt; stub = new Mock&lt;ILoggerDependency&gt;();
 
 stub.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;()))
@@ -203,8 +192,7 @@ ILoggerDependency logger = stub.Object;
 string directory = logger.GetDirectoryByLoggerName(loggerName);
 	
 Assert.That(directory, Is.EqualTo("C:\\" + loggerName));
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Во-первых, здесь мы видим новый синтаксис создания мока -
 						сначала создаётся мок-объект класса Mock, затем выполняется
@@ -223,8 +211,7 @@ Assert.That(directory, Is.EqualTo("C:\\" + loggerName));
 						При помощи оператора логического "И" можно задавать поведение
 						сразу нескольких методов в одном выражении.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 ILoggerDependency logger =
 Mock.Of&lt;ILoggerDependency&gt;(
 	d => d.GetCurrentDirectory() == "D:\\Temp" &amp;&amp;
@@ -234,8 +221,7 @@ Mock.Of&lt;ILoggerDependency&gt;(
 Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
 Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
 Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Temp"));
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Несколько Setup-ов</h3>
@@ -243,8 +229,7 @@ Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Tem
 						То же самое можно сделать при помощи более громоздкого старого
 						синтаксиса из нескольких сетапов:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var stub = new Mock&lt;ILoggerDependency&gt;();
 stub.Setup(ld => ld.GetCurrentDirectory()).Returns("D:\\Temp");
 stub.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny&lt;string&gt;())).Returns("C:\\Temp");
@@ -255,8 +240,7 @@ ILoggerDependency logger = stub.Object;
 Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
 Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
 Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Temp"));
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -265,8 +249,7 @@ Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Tem
 					<p>
 						Для проверки поведения будем использовать следующий класс и интерфейс:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 public interface ILogWriter
 {
 	string GetLogger();
@@ -287,13 +270,11 @@ public class Logger
 		_logWriter.Write(message);
 	}
 }
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Первый мок</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var mock = new Mock&lt;ILogWriter&gt;();
 var logger = new Logger(mock.Object);
 	
@@ -301,8 +282,7 @@ logger.WriteLine("Hello, logger!");
 	
 // Проверяем, что вызвался метод Write нашего мока с любым аргументом
 mock.Verify(lw => lw.Write(It.IsAny&lt;string&gt;()));
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Вариации</h3>
@@ -310,19 +290,15 @@ mock.Verify(lw => lw.Write(It.IsAny&lt;string&gt;()));
 						Если нужно проверить, был ли вызов метода с определённым
 						аргументом:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 mock.Verify(lw => lw.Write("Hello, logger!"));
-						</code>
-					</pre>
+					</code></pre>
 					<p>
 						Если нужно проверить, что метод был вызван ровно 1 раз:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 mock.Verify(lw => lw.Write(It.IsAny&lt;string&gt;()), Times.Once());
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h2>Хелпер Times</h2>
@@ -346,8 +322,7 @@ mock.Verify(lw => lw.Write(It.IsAny&lt;string&gt;()), Times.Once());
 						параметров, будут использовать ожидания установленные с
 						помощью методы mock.Setup.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var mock = new Mock&lt;ILogWriter&gt;();
 mock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
 	
@@ -355,8 +330,7 @@ var logger = new Logger(mock.Object);
 logger.WriteLine("Hello, logger!");
 	
 mock.Verify();
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Несколько ожиданий</h3>
@@ -366,8 +340,7 @@ mock.Verify();
 						мок-объект и задать ожидаемое поведение с помощью методов
 						Setup.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var mock = new Mock&lt;ILogWriter&gt;();
 mock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
 mock.Setup(lw => lw.SetLogger(It.IsAny&lt;string&gt;()));
@@ -376,8 +349,7 @@ var logger = new Logger(mock.Object);
 logger.WriteLine("Hello, logger!");
 	
 mock.Verify();
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -422,8 +394,7 @@ mock.Verify();
 						MockBehavior.Strict метод Verify завершится неудачно, если мы не
 						укажем явно, что будем использовать эти два метода.
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var mock = new Mock&lt;ILogWriter&gt;(MockBehavior.Strict);
 
 mock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
@@ -433,8 +404,7 @@ var logger = new Logger(mock.Object);
 logger.WriteLine("Hello, logger!");
  
 mock.Verify();
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -448,8 +418,7 @@ mock.Verify();
 				</section>
 				<section>
 					<h3>Использование MockRepository</h3>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var repository = new MockRepository(MockBehavior.Default);
 ILoggerDependency logger = repository.Of&lt;ILoggerDependency&gt;()
     .Where(ld => ld.DefaultLogger == "DefaultLogger")
@@ -460,8 +429,7 @@ ILoggerDependency logger = repository.Of&lt;ILoggerDependency&gt;()
 Assert.That(logger.GetCurrentDirectory(), Is.EqualTo("D:\\Temp"));
 Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
 Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Temp"));
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 				<section>
 					<h3>Несколько Mock объектов</h3>
@@ -471,8 +439,7 @@ Assert.That(logger.GetDirectoryByLoggerName("CustomLogger"), Is.EqualTo("C:\\Tem
 						Тестируемый класс при вызове метода Write должен вызвать
 						методы двух зависимостей:
 					</p>
-					<pre>
-						<code class="cs">
+					<pre><code class="cs">
 var repo = new MockRepository(MockBehavior.Default);
 var logWriterMock = repo.Create&lt;ILogWriter&gt;();
 logWriterMock.Setup(lw => lw.Write(It.IsAny&lt;string&gt;()));
@@ -485,8 +452,7 @@ var smartLogger = new SmartLogger(logWriterMock.Object, logMailerMock.Object);
 smartLogger.WriteLine("Hello, Logger");
 	
 repo.Verify();
-						</code>
-					</pre>
+					</code></pre>
 				</section>
 			</section>
 			<section>
@@ -496,8 +462,7 @@ repo.Verify();
 					по готовой заглушке зависимости. Для этого используется
 					методов Mock.Get:
 				</p>
-				<pre>
-					<code class="cs">
+				<pre><code class="cs">
 ILoggerDependency logger = Mock.Of&lt;ILoggerDependency&gt;(
 		ld => ld.GetCurrentDirectory() == "D:\\Temp"
 			&amp;&amp; ld.DefaultLogger == "DefaultLogger");
@@ -512,8 +477,7 @@ ILoggerDependency logger = Mock.Of&lt;ILoggerDependency&gt;(
 	Assert.That(logger.DefaultLogger, Is.EqualTo("DefaultLogger"));
 	Assert.That(logger.GetDirectoryByLoggerName("Foo"), Is.EqualTo("C:\\Foo"));
 	Assert.That(logger.GetDirectoryByLoggerName("Boo"), Is.EqualTo("C:\\Boo"));
-					</code>
-				</pre>
+				</code></pre>
 			</section>
 			<section>
 				<h3>Подробности</h3>
