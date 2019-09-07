@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<title>Test-case and test-suite</title>
+	<meta name="description" content="testing, what is test cases and tast suites" />
+	<meta name="keywords" content="testing, testcase, testsuite" />
+	<meta name="author" content="Edward &amp; Albert" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="icon" type="image/png" href="../../icon.png">
+	<link rel="stylesheet" href="../../css/bundle.min.css" />
+	
+	<link rel="stylesheet" href="../../css/custom.css" />
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? "../../css/print/pdf.css" : "../../css/print/paper.css";
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<script src="../../js/theme.js"></script>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+                <section>
+                    <h1>Тестирование ПО</h1>
+                    <h3>Тест-кейсы</h3>
+                    <p>
+                        <small>Edward &amp; Albert / <a href="https://github.com/tgjmjgj/testing/">github:Tgjmjgj</a></small>
+                    </p>
+                </section>
+				<section>
+					<h2>Содержание лекции</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Тест-кейсы</h1>
+					<blockquote>
+						Формальной задачей тестировщика является написание и/или 
+						выполнение тест-кейсов.
+					</blockquote>
+					<blockquote>
+						Тест-кейс (тестируемая ситуация) - пошаговое описание 
+						процесса нахождения фактического результата.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Суть тест-кейса</h2>
+					<blockquote>
+						Тест-кейс описывает процесс нахождения фактического результата
+						и сопоставления его с ожидаемым. Он говорит нам, что делать,
+						чтобы от старта приложения прийти к тестируемому объекту, и
+						как правильно сравнить результаты.
+					</blockquote>
+					<blockquote>
+						Иными словами, тест-кейс - это сценарий теста.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Принципы построения тест-кейсов</h2>
+					<p>
+						Требования к тест кейсам:
+					</p>
+					<ul>
+						<li>Независимость</li>
+						<li>Идемпотентность</li>
+						<li>Однозначность</li>
+					</ul>
+					<blockquote>
+						Также любой тест-кейс должен проверять лишь одно
+						логическое действие, один ожидаемый результат.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Принципы хороших тест-кейсов</h2>
+					<blockquote>
+						Тест-кейсы не должны содержать ссылок на другие тест-кейсы.
+					</blockquote>
+					<blockquote>
+						Тест-кейсы не должны оставлять после своей работы следов в системе.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Структура тест-кейса</h1>
+					<blockquote>
+						Допустим, тестировщику Анатолию был выдан такой тест-кейс:
+					</blockquote>
+					<img src="img/1.jpg" />
+					<blockquote>
+						И перед бедным Анатолием встают фундаментальные вопросы:
+						<ul>
+							<li>Где ему взять карту VISA для проверки.</li>
+							<li>И как, собственно, узнать, прошла оплата или нет.</li>
+						</ul>
+					</blockquote>
+					<blockquote>
+						В общем, этот тест-кейс очень плох.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Корректный тест-кейс</h2>
+					<img src="img/2.jpg" />
+				</section>
+				<section>
+					<h2>Исход исполнения тест-кейса</h2>
+					<blockquote>
+						Результат выполнения любого тест-кейса строго детерминирован:
+						<p>тест либо прошёл (PASS), либо нет (FAIL)</p>
+					</blockquote>
+					<blockquote>
+						Иногда возникают ситуации, когда тест не может завершиться,
+						что тоже свидетельствует о наличии бага.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Атрибуты тест-кейса</h2>
+					<ul>
+						<li>Уникальный ID</li>
+						<li>Приоритет</li>
+						<li>Идея</li>
+						<li>Подготовительная часть</li>
+						<li>История редактирования</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Уникальный ID</h2>
+					<blockquote>
+						Идентификатор должен быть обязательно, причём уникальный
+						в рамках департамента качества (для ссылок, статистики,
+						редактирования и т.д.).
+					</blockquote>
+				</section>
+				<section>
+					<h2>Приоритет</h2>
+					<blockquote>
+						Приоритет тест-кейса определяет, насколько прохождение
+						конкретного теста критично для ПО. Обычно используется
+						шкала приоритетов от 1 до 4.
+					</blockquote>
+					<blockquote>
+						Допустим, тест-кейс, проверяющий корректность добавления
+						новой записи в базу данных, будет иметь приоритет 1. А 
+						тест-кейс, проверяющий шрифт кнопки "О программе" - 
+						приоритет 4.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Идея</h2>
+					<blockquote>
+						Это описание конкретной вещи, проверяемой тест-кейсом.
+						Просто и на понятном языке.
+					</blockquote>
+				</section>
+				<section>
+					<h2>Подготовительная часть</h2>
+					<blockquote>
+						В подготовительной части выносятся все ресурсы тест-кейса,
+						которые используются во время его выполнения. Это
+						своеобразный блок объявления переменных в едином месте.
+					</blockquote>
+					<blockquote>
+						В подготовительную часть тест-кейса могут включаться:
+					</blockquote>
+					<ul>
+						<li>Информация об аккаунте пользователя</li>
+						<li>Другие данные, необходимые для ввода в процессе прохождения теста</li>
+						<li>Запросе к базе данных</li>
+						<li>Комментарии в помощь тестировщику</li>
+						<li>Вещи, облегчающие исполнение и поддержку тест-кейса</li>
+					</ul>
+				</section>
+				<section>
+					<h2>История редактирования</h2>
+					<blockquote>
+						Сведения о том, кто, когда и почему, вносил изменения в
+						сценарий тест-кейса.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<h2>Дополненный тест-кейс</h2>
+				<img src="img/3.jpg" />
+			</section>
+			<section>
+				<section>
+					<h1>Data-driven тест-кейсы</h1>
+					<blockquote>
+						На предыдущем этапе, за счёт вынесения всех данных в заголовок 
+						тест-кейса, мы получили <b>Управляемый данными</b> тест-кейс.
+					</blockquote>
+					<blockquote>
+						Преимуществом такого тест-кейса является то, что для модификации
+						тест-кейса на проверку других карт достаточно лишь модификации
+						начальных данных, тогда как шаги остаются неизменными.
+					</blockquote>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Проблема поддерживаемости тест-кейсов</h2>
+					<blockquote>
+						Поддерживаемость - способность тест-кейса подстраиваться
+						под изменения в ПО.
+					</blockquote>
+					Чем выше абстрактность содержания тест-кейса - тем выше его
+					поддерживаемость.
+				</section>
+				<section>
+					<h2>Баланс сил</h2>
+					При разработке любого тест-кейса нужно находить баланс между
+					подробностью описания действий (однозначностью) и краткостью
+					с обобщённостью (абстрагированием).
+					<blockquote>
+						Идеальный тест-кейс - где-то посередине.
+					</blockquote>
+				</section>
+				<section>
+					<h3>Баланс сил</h3>
+					Перечисляющиеся в тест-кейсе шаги должны быть объективно чёткими
+					и ясными, без двусмысленных вставок.
+					<p>
+						Но нет необходимости описывать все шаги как для детей. Тест-кейс
+						должен быть понятен любым другим тестировщикам.
+					</p>
+				</section>
+				<section>
+					<h3>Упрощение</h3>
+					Наш предыдущий пример тест-кейса с картой слишком переусложнен
+					и перенасыщен информацией.
+					<p>Попробуем сделать его более кратким:</p>
+				</section>
+				<section>
+					<h3>Упрощённый тест-кейс</h3>
+					<img src="img/4.jpg" />
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Несколько ожидаемых результатов</h1>
+					Тест-кейсом проверятся только одна конкретная вещь, поэтому в идеальном
+					случае у него должен быть всего один ожидаемый результат.
+					<p>
+						Но бывают ситуации, когда система функционирует так, что для проверки
+						какой-либо вещи необходимо выполнение <b>обязательно</b> нескольких
+						условий.
+					</p>
+				</section>
+				<section>
+					<h3>Пример</h3>
+					Допустим, у нас совершается коммерческая сделка, и господин N. передаёт
+					господину X. 1000 биткоинов. В этом случае ожидаемыми результатами могут
+					одновременно являться:
+					<ul>
+						<li>1. Счёт господина N. уменьшился на 1000 биткоинов.</li>
+						<li>2. Счёт господина X. увеличился на 1000 биткоинов.</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Тест-комплекты</h1>
+					<blockquote>
+						<span class="purple">Тест комплект (test suite)</span> - набор тест кейсов, сгруппированных
+						по каким-либо общим признакам.
+					</blockquote>
+					<p>
+						Обычно так организуют все тесты: тесты, затрагивающие какие-то смежные и связанные друг с другом
+						компоненты системы, объединяют в один тест комплект.
+					</p>
+				</section>
+			</section>
+
+
+		</div>
+	</div>
+	<aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x controls"></i>
+		</a>
+	</aside>
+	<aside id="presentable-icon-close">
+		<a title="К списку материалов" href="../../index.html#/1">
+			<i class="fa fa-times fa-2x controls"></i>
+		</a>
+	</aside>
+	<aside id="presentable-theme-picker">
+		<div id="hidden-bar" class="invisible">
+			<div>
+				<div data-theme="beige" class="theme-circle theme-beige"></div>
+				<div data-theme="black" class="theme-circle theme-black"></div>
+				<div data-theme="blood" class="theme-circle theme-blood"></div>
+				<div data-theme="league" class="theme-circle theme-league"></div>
+				<div data-theme="moon" class="theme-circle theme-moon"></div>
+				<div data-theme="night" class="theme-circle theme-night"></div>
+				<div data-theme="serif" class="theme-circle theme-serif"></div>
+				<div data-theme="simple" class="theme-circle theme-simple"></div>
+				<div data-theme="sky" class="theme-circle theme-sky"></div>
+				<div data-theme="solarized" class="theme-circle theme-solarized"></div>
+				<div data-theme="white" class="theme-circle theme-white"></div>
+			</div>
+		</div>
+		<div id="selected-theme" class="theme-circle"></div>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>

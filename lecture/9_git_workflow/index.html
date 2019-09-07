@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<title>Одинокий гит</title>
+	<meta name="description" content="oop on c#" />
+	<meta name="author" content="Edward &amp; Albert" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="icon" type="image/png" href="../../icon.png">
+	<link rel="stylesheet" href="../../css/bundle.min.css">
+	
+	<link rel="stylesheet" href="../../css/custom.css" />
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? "../../css/print/pdf.css" : "../../css/print/paper.css";
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+
+	<!--[if lt IE 9]>
+		<script src="../../js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<script src="../../js/theme.js"></script>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<section>
+					<h1>Основы гита. Часть 2</h1>
+					<div>
+						<p style="display: inline-block;">
+							Edward &amp; Albert / 
+						</p>
+						<a href="https://github.com/tgjmjgj" class="icon-button github">
+							<i class="fa fa-github"></i><span></span>
+						</a>
+						<a href="https://facebook.com/paradox7master" class="icon-button facebook">
+							<i class="fa fa-facebook"></i><span></span>
+						</a>
+					</div>
+				</section>
+				<section>
+					<h2>Содержание</h2>
+					<nav id="presentable-toc" class="table-content"></nav>
+				</section>
+            </section>
+            <section>
+                <section>
+                    <h2>Удалённые репозитории</h2>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>GitHub</h2>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Виды аутентификации</h2>
+                    <ul>
+                        <li>HTTPS</li>
+                        <li>SSH</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>HTTPS аутентификация</h2>
+                    <p>
+                        При использовании такого типа аутентификации нужно будет при выполнении команд, связанных
+                        с удалённым репозиторием, всегда вводить свой логин и пароль.
+                    </p>
+                    <p>
+                        Дополнительные телодвижения не требуются.
+                    </p>
+                </section>
+                <section>
+                    <h2>SSH аутентификация</h2>
+                    <p>
+                        В случае же с SSH аутентификацией нужны криптографические ключи.
+                    </p>
+                    <p>
+                        Необходимо создать (если нет) ключи, и загрузить открытый ключ на GitHub (или другой
+                        сервис хостинга репозиториев гита).
+                    </p>
+                    <p>
+                        С этим подходом, для начала работы нужно выполнить много всяких операций, но потом, во
+                        время работы, вообще не нужно будет никак участвовать в процессе аутентификации, т.е.
+                        каждый раз вводить ничего не потребуется.
+                    </p>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Работа с удалённым репозиторием</h2>
+                </section>
+                <section>
+                    <h2>Добавление удалённого репозитория</h2>
+                    <pre><code class="bash">
+git remote add имя адрес_репозитория
+
+git remote add origin git@github.com:Tgjmjgj/WpfTestGit.git
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Список удалённых репозиториев</h2>
+                    <pre><code class="bash">
+git remote -v
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Связывание локальных и удалённых ветвей</h2>
+                    <pre><code class="bash">
+git branch -u имя_удалённого_репозитория/имя_ветви
+
+git branch -u origin/master
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Отправка изменений</h2>
+                </section>
+                <section>
+                    <h2>push</h2>
+                    <pre><code class="bash">
+git push
+git push имя_удалённого_репозитория имя_ветви
+
+git push origin master
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Получение изменений</h2>
+                </section>
+                <section>
+                    <h2>fetch</h2>
+                    <p>
+                        Команда fetch используется для получения данных из удалённого репозитория.
+                    </p>
+                    <pre><code class="bash">
+git fetch
+                    </code></pre>
+                    <p>
+                        Fetch не выполняет слияния полученной ветки с локальной, он просто сохраняет её отдельно,
+                        под именем имя_удалённого_репозитория/имя_ветви (origin/master).
+                    </p>
+                    <p>
+                        Это бывает нужно для ручных слияний.
+                    </p>
+                </section>
+                <section>
+                    <h2>pull</h2>
+                    <p>
+                        Команда pull получает данные из удалённого репозитория и выполняет с ней автоматическое
+                        слияние соответствующей локальной ветви.
+                    </p>
+                    <p>
+                        pull = fetch + merge
+                    </p>
+                    <pre><code class="bash">
+git pull
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Обработка конфликтов</h2>
+                    <p>
+                        Ручное слияние с помощью mergetool.
+                    </p>
+                    <p>
+                        Нужно установить какую-нибудь утилиту для выполнения конфликтных слияний.
+                    </p>
+                    <p>
+                        Например, <a href="https://sourceforge.net/projects/kdiff3/files/">KDiff3</a>, или можно
+                        использовать расширения для IDE (Git for Visual Studio).
+                    </p>
+                </section>
+                <section>
+                    <h2>Настройка mergetool</h2>
+                    <pre><code class="bash">
+git config --global --add merge.tool kdiff3
+git config --global --add mergetool.kdiff3.path "C:/Program Files/KDiff3/kdiff3.exe"
+git config --global --add mergetool.kdiff3.trustExitCode false
+
+git config --global --add diff.guitool kdiff3
+git config --global --add difftool.kdiff3.path "C:/Program Files/KDiff3/kdiff3.exe"
+git config --global --add difftool.kdiff3.trustExitCode false
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Использование mergetool</h2>
+                    <pre><code class="bash">
+git mergetool
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h3>Способы коллективной работы с гитом</h3>
+                    <ul>
+                        <li>Централизованный подход</li>
+                        <li>Feature Branching</li>
+                        <li>Gitflow</li>
+                        <li>GitHub Flow</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Централизованный подход</h2>
+                    <a href="https://www.atlassian.com/git/tutorials/comparing-workflows">Много информации</a>
+                    <a href="https://buddy.works/blog/5-types-of-git-workflows">Более кратко</a>
+                    <a href="https://www.codingblocks.net/podcast/comparing-git-workflows/">Сравнение разных</a>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Подход Feature Branching</h2>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Подход Gitflow</h2>
+                    <a href="https://datasift.github.io/gitflow/IntroducingGitFlow.html">Классное разъяснение gitflow</a>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Подход GitHub Flow</h2>
+                    <h3>или Forking workflow</h3>
+                    <a href="https://guides.github.com/introduction/flow/">Разъяснение GitHub Flow</a>
+                </section>
+                <section>
+                    <h2>Fork</h2>
+                    <p>
+                        Что такое форк, и с чем его едят.
+                    </p>
+                </section>
+                <section>
+                    <h2>Pull request</h2>
+                    <p>
+                        Pull request через GitHub.
+                    </p>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Визуальный гит</h2>
+                    <p>
+                        По этой ссылке можно визуально просмотреть и поучиться работать с командами гита:
+                    </p>
+                    <a href="http://git-school.github.io/visualizing-git/#free-remote">Да, именно по этой</a>
+                </section>
+                <section>
+                    <h2>Материалы на английском</h2>
+                    <p>
+                        Перечень лучших источников по гиту:
+                    </p>
+                    <a href="https://try.github.io/">Можно найти здесь</a>
+                    <p>
+                        Коротко обо всём главном:
+                    </p>
+                    <a href="https://guides.github.com/introduction/git-handbook/">Ссылка</a>
+                </section>
+                <section>
+                    <h2>Задания</h2>
+                    <p>
+                        1. Невероятные задания с подробным описанием и визуализацией всех действий (и даже на русском
+                        языке!): 
+                    </p>
+                    <a href="https://learngitbranching.js.org/">Обязательная ссылка для всех</a>
+                    <p>
+                        2. Супер-подробные инструкции обо всех командах и операциях гита, где вас за ручку
+                        проведут и покажут, как что использовать, и что оно делает. И тоже на русском!
+                    </p>
+                    <a href="https://githowto.com/ru">Вторая обязательная ссылка</a>
+                </section>
+                <section>
+                    <h2>Задания на английском</h2>
+                    <p>
+                        Хороший набор интерактивных заданий:
+                    </p>
+                    <a href="https://www.katacoda.com/courses/git">Ссылка на бесплатный обучающий курс</a>
+                </section>
+            </section>
+        </div>
+	</div>
+    <aside id="presentable-icon" class="cpp">
+		<a title="Содержание лекции" href="#/0/1">
+			<i class="fa fa-list-ul fa-2x controls"></i>
+		</a>
+	</aside>
+	<aside id="presentable-icon-close">
+		<a title="К списку материалов" href="../../index.html#/1">
+			<i class="fa fa-times fa-2x controls"></i>
+		</a>
+	</aside>
+	<aside id="presentable-theme-picker">
+		<div id="hidden-bar" class="invisible">
+			<div>
+				<div data-theme="beige" class="theme-circle theme-beige"></div>
+				<div data-theme="black" class="theme-circle theme-black"></div>
+				<div data-theme="blood" class="theme-circle theme-blood"></div>
+				<div data-theme="league" class="theme-circle theme-league"></div>
+				<div data-theme="moon" class="theme-circle theme-moon"></div>
+				<div data-theme="night" class="theme-circle theme-night"></div>
+				<div data-theme="serif" class="theme-circle theme-serif"></div>
+				<div data-theme="simple" class="theme-circle theme-simple"></div>
+				<div data-theme="sky" class="theme-circle theme-sky"></div>
+				<div data-theme="solarized" class="theme-circle theme-solarized"></div>
+				<div data-theme="white" class="theme-circle theme-white"></div>
+			</div>
+		</div>
+		<div id="selected-theme" class="theme-circle"></div>
+	</aside>
+	<script src="../../js/bundle.min.js"></script>
+</body>
+
+</html>
